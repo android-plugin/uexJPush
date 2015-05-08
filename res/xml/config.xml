@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+	<plugin
+        className="org.zywx.wbpalmstar.widgetone.uexjpush.EUExJPush" uexName="uexJPush" >
+        <method name="init" />
+        <method name="stopPush" />
+        <method name="resumePush" />
+        <method name="isPushStopped"
+            type="1"/>
+        <method name="onReceiveRegistration"
+            type="2"/>
+        <method name="onReceiveMessage"
+            type="2"/>
+        <method name="onReceiveNotification"
+            type="2"/>
+        <method name="onReceiveNotificationOpen"
+            type="2"/>
+        <method name="setAliasAndTags"
+            type="1"/>
+        <method name="setAlias"
+            type="1"/>
+        <method name="setTags"
+            type="1"/>
+        <method name="getRegistrationID"
+            type="1"/>
+        <method name="reportNotificationOpened" />
+        <method name="clearAllNotifications" />
+        <method name="clearNotificationById" />
+        <method name="setPushTime" />
+        <method name="setSilenceTime" />
+        <method name="setLatestNotificationNumber" />
+        <method name="getConnectionState"
+            type="1"/>
+        <method name="onReceiveConnectionChange"
+            type="2"/>
+        <method name="addLocalNotification" />
+        <method name="removeLocalNotification" />
+        <method name="clearLocalNotifications" />
+    </plugin>
+</uexplugins>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+    <plugin uexName="uexJPush" version="3.0.0" build="0">
+        <info>0:极光推送插件</info>
+    </plugin>
+</uexplugins>
