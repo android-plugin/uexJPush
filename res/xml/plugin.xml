@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
 	<plugin
-        className="org.zywx.wbpalmstar.widgetone.uexJPush.EUExJPush" uexName="uexJPush" >
-            <method name="init" />
+        className="org.zywx.wbpalmstar.widgetone.uexJPush.EUExJPush"
+        uexName="uexJPush"
+        global="true">
             <method name="stopPush" />
             <method name="resumePush" />
             <method name="isPushStopped"/>

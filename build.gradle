@@ -9,7 +9,10 @@ dependencies {
 android {
     compileSdkVersion 17
     buildToolsVersion "21.1.2"
-
+    defaultConfig {
+        // 应用的包名
+        applicationId "org.zywx.wbpalmstar.widgetone.uexJPush"
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

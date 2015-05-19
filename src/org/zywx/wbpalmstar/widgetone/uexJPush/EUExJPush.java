@@ -25,7 +25,6 @@ import cn.jpush.android.data.JPushLocalNotification;
 public class EUExJPush extends EUExBase implements CallBack {
 
     private static final String BUNDLE_DATA = "data";
-    private static final int MSG_INIT = 1;
     private static final int MSG_STOPPUSH = 2;
     private static final int MSG_RESUMEPUSH = 3;
     private static final int MSG_ISPUSHSTOPPED = 4;
@@ -48,6 +47,8 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     public EUExJPush(Context context, EBrowserView eBrowserView) {
         super(context, eBrowserView);
+        notificationManager= (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+        MyReceiver.setCallBack(this);
     }
 
     @Override
@@ -55,34 +56,8 @@ public class EUExJPush extends EUExBase implements CallBack {
         return false;
     }
 
-    public void init(String[] params) {
-        if (params == null || params.length < 1) {
-            errorCallback(0, 0, "error params!");
-            return;
-        }
-        Message msg = new Message();
-        msg.obj = this;
-        msg.what = MSG_INIT;
-        Bundle bd = new Bundle();
-        bd.putStringArray(BUNDLE_DATA, params);
-        msg.setData(bd);
-        mHandler.sendMessage(msg);
-    }
-
-    private void initMsg(String[] params) {
-        String json = params[0];
-        String debug=null;
-        try {
-            JSONObject jsonObject = new JSONObject(json);
-            debug=jsonObject.optString("debug");
-        } catch (JSONException e) {
-        }
-        if ("1".equals(debug)){
-            JPushInterface.setDebugMode(true);
-        }
-        notificationManager= (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-        JPushInterface.init(mContext.getApplicationContext());
-        MyReceiver.setCallBack(this);
+    public static void onApplicationCreate(Context context){
+        JPushInterface.init(context);
     }
 
     public void stopPush(String[] params) {
@@ -124,7 +99,6 @@ public class EUExJPush extends EUExBase implements CallBack {
                     + JsConst.CALLBACK_ISPUSHSTOPPED + "('" + data + "');}";
             onCallback(js);
         } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
@@ -565,9 +539,6 @@ public class EUExJPush extends EUExBase implements CallBack {
         }
         Bundle bundle=message.getData();
         switch (message.what) {
-            case MSG_INIT:
-                initMsg(bundle.getStringArray(BUNDLE_DATA));
-                break;
             case MSG_STOPPUSH:
                 stopPushMsg(bundle.getStringArray(BUNDLE_DATA));
                 break;
