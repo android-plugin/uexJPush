@@ -2,16 +2,13 @@ package org.zywx.wbpalmstar.widgetone.uexJPush;
 
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
@@ -60,6 +57,13 @@ public class EUExJPush extends EUExBase implements CallBack {
         JPushInterface.init(context);
     }
 
+    public static void onActivityCreate(Context context) {
+        if (MyReceiver.offlineIntent!=null&&MyReceiver.callBack!=null){
+            MyReceiver.handleIntent(MyReceiver.offlineIntent);
+            MyReceiver.offlineIntent=null;
+        }
+    }
+
     public void stopPush(String[] params) {
         Message msg = new Message();
         msg.obj = this;
@@ -97,7 +101,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             String data =jsonObject.toString();
             String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_ISPUSHSTOPPED + "){"
                     + JsConst.CALLBACK_ISPUSHSTOPPED + "('" + data + "');}";
-            onCallback(js);
+            evaluateRootWindowScript(js);
         } catch (JSONException e) {
         }
     }
@@ -148,7 +152,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String data = jsonObject.toString();
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){"
                         + JsConst.CALLBACK_SETALIASANDTAGS + "('" + data + "');}";
-                onCallback(js);
+                evaluateRootWindowScript(js);
             }
         });
 
@@ -191,7 +195,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String data = jsonObject.toString();
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){"
                         + JsConst.CALLBACK_SETALIAS + "('" + data + "');}";
-                onCallback(js);
+                evaluateRootWindowScript(js);
 
             }
         });
@@ -239,7 +243,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String data = jsonObject.toString();
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){"
                         + JsConst.CALLBACK_SETTAGS + "('" + data + "');}";
-                onCallback(js);
+                evaluateRootWindowScript(js);
             }
         });
 
@@ -263,7 +267,7 @@ public class EUExJPush extends EUExBase implements CallBack {
         String data = jsonObject.toString();
         String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETREGISTRATIONID + "){"
                 + JsConst.CALLBACK_GETREGISTRATIONID + "('" + data + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
     }
 
     public void reportNotificationOpened(String[] params) {
@@ -437,7 +441,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             String data =jsonObject.toString();
             String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETCONNECTIONSTATE + "){"
                     + JsConst.CALLBACK_GETCONNECTIONSTATE + "('" + data + "');}";
-            onCallback(js);
+            evaluateRootWindowScript(js);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -599,34 +603,44 @@ public class EUExJPush extends EUExBase implements CallBack {
     public void onReceiveRegistration(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVEREGISTRATION + "){"
                 + JsConst.ONRECEIVEREGISTRATION + "('" + jsonData + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
     }
 
     @Override
     public void onReceiveMessage(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVEMESSAGE + "){"
                 + JsConst.ONRECEIVEMESSAGE + "('" + jsonData + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
     }
 
     @Override
     public void onReceiveNotification(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATION + "){"
                 + JsConst.ONRECEIVENOTIFICATION + "('" + jsonData + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
     }
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){"
                 + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
     }
 
     @Override
     public void onReceiveConnectionChange(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVECONNECTIONCHANGE + "){"
                 + JsConst.ONRECEIVECONNECTIONCHANGE + "('" + jsonData + "');}";
-        onCallback(js);
+        evaluateRootWindowScript(js);
+    }
+
+
+    /**
+     * 执行Root Window脚本
+     *
+     * @param script
+     */
+    private void evaluateRootWindowScript(String script) {
+        evaluateScript("root", 0, script);
     }
 }

@@ -13,4 +13,5 @@ public class JsConst {
     public static final String CALLBACK_GETREGISTRATIONID = "uexJPush.cbGetRegistrationID";
     public static final String CALLBACK_GETCONNECTIONSTATE = "uexJPush.cbGetConnectionState";
     public static final String ONRECEIVECONNECTIONCHANGE = "uexJPush.onReceiveConnectionChange";
+
 }

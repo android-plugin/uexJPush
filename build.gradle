@@ -11,7 +11,7 @@ android {
     buildToolsVersion "21.1.2"
     defaultConfig {
         // 应用的包名
-        applicationId "org.zywx.wbpalmstar.widgetone.uexJPush"
+        applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
     }
     sourceSets {
         main {
