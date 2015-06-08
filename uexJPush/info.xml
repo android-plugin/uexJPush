@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.0" build="0">
-        <info>0:极光推送插件</info>
+    <plugin uexName="uexJPush" version="3.0.1" build="1">
+        <info>1:修复退出应用时收到推送闪退的问题</info>
+        <build>0:极光推送插件</build>
     </plugin>
 </uexplugins>
