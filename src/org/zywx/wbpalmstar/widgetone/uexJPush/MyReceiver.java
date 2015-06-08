@@ -17,8 +17,22 @@ public class MyReceiver extends BroadcastReceiver {
 
     public static CallBack callBack;
 
+    public static Intent offlineIntent=null;
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (callBack==null){
+            offlineIntent=intent;
+            return;
+        }
+        offlineIntent=null;
+        handleIntent(intent);
+    }
+
+    public static void handleIntent(Intent intent){
+        if (callBack==null){
+            return;
+        }
         Bundle bundle = intent.getExtras();
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -27,7 +41,6 @@ public class MyReceiver extends BroadcastReceiver {
                 jsonObject.put("title",regId);
                 callBack.onReceiveRegistration(jsonObject.toString());
             } catch (JSONException e) {
-                e.printStackTrace();
             }
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             callbackMessage(bundle);
@@ -44,12 +57,12 @@ public class MyReceiver extends BroadcastReceiver {
                 jsonObject.put("connect",connected?0:1);
                 callBack.onReceiveConnectionChange(jsonObject.toString());
             } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     }
 
-    private void callbackNotificationOpen(Bundle bundle) {
+
+    private static void callbackNotificationOpen(Bundle bundle) {
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         String content = bundle.getString(JPushInterface.EXTRA_ALERT);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -64,7 +77,7 @@ public class MyReceiver extends BroadcastReceiver {
         callBack.onReceiveNotificationOpen(jsonObject.toString());
     }
 
-    private void callbackNotification(Bundle bundle) {
+    private static void callbackNotification(Bundle bundle) {
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         String content = bundle.getString(JPushInterface.EXTRA_ALERT);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -86,7 +99,7 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     //send msg to MainActivity
-    private void callbackMessage(Bundle bundle) {
+    private static void callbackMessage(Bundle bundle) {
         JSONObject jsonObject=new JSONObject();
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
@@ -103,7 +116,7 @@ public class MyReceiver extends BroadcastReceiver {
         callBack.onReceiveMessage(jsonObject.toString());
     }
 
-    private void put(JSONObject jsonObject,String key,Object value){
+    private static void put(JSONObject jsonObject,String key,Object value){
         if (value!=null){
             try {
                 jsonObject.put(key,value);

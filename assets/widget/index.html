@@ -8,14 +8,6 @@
 
     <script type="text/javascript">
 
-	function init(){
-		var params = {
-			debug:0
-		};
-		var data = JSON.stringify(params);
-		uexJPush.init(data);
-	}
-
 	function stopPush(){
 		var params = {
 
@@ -177,6 +169,7 @@
     }
 
     function onReceiveMessage(info){
+        console.log(info);
         alert(info);
     }
 
@@ -239,8 +232,6 @@
 <div class="tit">uexDemo对象</div>
 <div class="conbor">
     <div class="consj">
-
-		<input class='btn' type='button' value='init' onclick='init()'>
 
 		<input class='btn' type='button' value='stopPush' onclick='stopPush()'>
 
