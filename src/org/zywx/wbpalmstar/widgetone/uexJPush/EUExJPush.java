@@ -57,8 +57,8 @@ public class EUExJPush extends EUExBase implements CallBack {
         JPushInterface.init(context);
     }
 
-    public static void onActivityCreate(Context context) {
-        if (MyReceiver.offlineIntent!=null&&MyReceiver.callBack!=null){
+    public static void onActivityResume(Context context) {
+         if (MyReceiver.offlineIntent!=null&&MyReceiver.callBack!=null){
             MyReceiver.handleIntent(MyReceiver.offlineIntent);
             MyReceiver.offlineIntent=null;
         }
