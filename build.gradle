@@ -4,6 +4,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile files('libs/jpush-sdk-release1.7.3.jar')
     compile files('libs/AppCanEngine.jar')
+    compile files('libs/AppCanEngine-uexJPush.jar')
 }
 
 android {

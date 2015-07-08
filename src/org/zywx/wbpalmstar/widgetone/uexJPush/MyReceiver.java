@@ -2,12 +2,20 @@ package org.zywx.wbpalmstar.widgetone.uexJPush;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.util.Log;
+
+import java.util.List;
 
 import javax.crypto.KeyAgreement;
 
@@ -21,15 +29,20 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())){
+            if (!isAppForground(context)){
+                RunApp(context);
+            }
+        }
         if (callBack==null){
             offlineIntent=intent;
             return;
         }
         offlineIntent=null;
-        handleIntent(intent);
+        handleIntent(context,intent);
     }
 
-    public static void handleIntent(Intent intent){
+    public static void handleIntent(Context context, Intent intent){
         if (callBack==null){
             return;
         }
@@ -47,7 +60,7 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             callbackNotification(bundle);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            callbackNotificationOpen(bundle);
+              callbackNotificationOpen(bundle);
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
 
         } else if(JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
@@ -59,6 +72,43 @@ public class MyReceiver extends BroadcastReceiver {
             } catch (JSONException e) {
             }
         }
+    }
+
+    public boolean isAppForground(Context mContext) {
+        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(mContext.getPackageName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void RunApp(Context context) {
+        String packageName=context.getApplicationInfo().packageName;
+        PackageInfo pi;
+        try {
+            pi = context.getPackageManager().getPackageInfo(packageName, 0);
+            Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+            resolveIntent.setPackage(pi.packageName);
+            PackageManager pManager = context.getPackageManager();
+            List<ResolveInfo> apps = pManager.queryIntentActivities(
+                    resolveIntent, 0);
+            ResolveInfo ri = apps.iterator().next();
+            if (ri != null) {
+                packageName = ri.activityInfo.packageName;
+                String className = ri.activityInfo.name;
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ComponentName cn = new ComponentName(packageName, className);
+                intent.setComponent(cn);
+                context.startActivity(intent);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
     }
 
 

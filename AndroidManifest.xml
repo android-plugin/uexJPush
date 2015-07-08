@@ -115,7 +115,7 @@
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <category android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo" />
             </intent-filter>
         </receiver>
