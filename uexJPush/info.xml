@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.2" build="2">
-        <info>2:修复onReceiveNotificationOpen,调整初始化时机</info>
+    <plugin uexName="uexJPush" version="3.0.3" build="3">
+        <info>3:修复4.4以下版本点击通知闪退的问题</info>
+        <build>2:修复onReceiveNotificationOpen,调整初始化时机</build>
         <build>1:修复退出应用时收到推送闪退的问题</build>
         <build>0:极光推送插件</build>
     </plugin>
