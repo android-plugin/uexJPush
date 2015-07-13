@@ -13,4 +13,8 @@
 	<bgcolor>#fefefe</bgcolor>
 	<widgetOne version="[widgetOneVersion]" />
 	<orientation>15</orientation>
+	<config desc="uexJPush" type="KEY">
+		<param platform="Android" name="$UEXJPUSH_PACKAGE$" value="org.zywx.wbpalmstar.widgetone.uexJPushDemo"/>
+        <param platform="Android" name="$UEXJPUSH_APPKEY$" value="e905af7390a3413439d24377"/>
+    </config>
 </widget>
