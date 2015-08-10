@@ -1,8 +1,5 @@
 package org.zywx.wbpalmstar.widgetone.uexJPush;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -12,12 +9,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.util.Log;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.crypto.KeyAgreement;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -121,7 +118,13 @@ public class MyReceiver extends BroadcastReceiver {
         JSONObject jsonObject=new JSONObject();
         put(jsonObject,"title",title);
         put(jsonObject,"content",content);
-        put(jsonObject,"extras",extras);
+        try {
+            JSONObject extrasObject = new JSONObject(extras);
+            put(jsonObject, "extras", extrasObject);
+        } catch (JSONException e) {
+            put(jsonObject, "extras", extras);
+            Log.e("JPush_Receiver", "json parse extras param exception");
+        }
         put(jsonObject,"notificationId",notificationId);
         put(jsonObject,"msgId",msgId);
         callBack.onReceiveNotificationOpen(jsonObject.toString());
@@ -139,7 +142,13 @@ public class MyReceiver extends BroadcastReceiver {
         JSONObject jsonObject=new JSONObject();
         put(jsonObject,"title",title);
         put(jsonObject,"content",content);
-        put(jsonObject,"extras",extras);
+        try {
+            JSONObject extrasObject = new JSONObject(extras);
+            put(jsonObject, "extras", extrasObject);
+        } catch (JSONException e) {
+            put(jsonObject, "extras", extras);
+            Log.e("JPush_Receiver", "json parse extras param exception");
+        }
         put(jsonObject,"notificationId",notificationId);
         put(jsonObject,"type",type);
         put(jsonObject,"fileHtml",fileHtml);
