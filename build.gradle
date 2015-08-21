@@ -8,8 +8,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "23.0.0"
     defaultConfig {
         // 应用的包名
         applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"

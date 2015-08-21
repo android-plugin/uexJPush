@@ -168,7 +168,15 @@ public class MyReceiver extends BroadcastReceiver {
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         put(jsonObject, "title", title);
         put(jsonObject, "message",message);
-        put(jsonObject,"extras",extras);
+
+        try {
+            JSONObject extrasObject = new JSONObject(extras);
+            put(jsonObject, "extras", extrasObject);
+        } catch (JSONException e) {
+            put(jsonObject, "extras", extras);
+            Log.e("JPush_Receiver", "json parse extras param exception");
+        }
+
         put(jsonObject,"type",type);
         put(jsonObject,"file",file);
         put(jsonObject,"msgId",msgId);
