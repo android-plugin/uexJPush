@@ -179,7 +179,6 @@ public class EUExJPush extends EUExBase implements CallBack {
             JSONObject jsonObject = new JSONObject(json);
             alias=jsonObject.getString("alias");
         } catch (JSONException e) {
-            e.printStackTrace();
         }
         JPushInterface.setAlias(mContext.getApplicationContext(), alias, new TagAliasCallback() {
             @Override
@@ -187,8 +186,8 @@ public class EUExJPush extends EUExBase implements CallBack {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("result", i);
-                    jsonObject.put("tags", s);
-                    jsonObject.put("alias", set);
+                    jsonObject.put("tags", set);
+                    jsonObject.put("alias", s);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -227,7 +226,6 @@ public class EUExJPush extends EUExBase implements CallBack {
                 }
             }
         } catch (JSONException e) {
-            e.printStackTrace();
         }
         JPushInterface.setTags(mContext.getApplicationContext(), JPushInterface.filterValidTags(tags), new TagAliasCallback() {
             @Override
@@ -235,8 +233,8 @@ public class EUExJPush extends EUExBase implements CallBack {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("result", i);
-                    jsonObject.put("tags", s);
-                    jsonObject.put("alias", set);
+                    jsonObject.put("tags", set);
+                    jsonObject.put("alias", s);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
