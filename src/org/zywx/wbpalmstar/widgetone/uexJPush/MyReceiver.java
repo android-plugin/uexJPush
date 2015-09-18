@@ -118,12 +118,14 @@ public class MyReceiver extends BroadcastReceiver {
         JSONObject jsonObject=new JSONObject();
         put(jsonObject,"title",title);
         put(jsonObject,"content",content);
-        try {
-            JSONObject extrasObject = new JSONObject(extras);
-            put(jsonObject, "extras", extrasObject);
-        } catch (JSONException e) {
-            put(jsonObject, "extras", extras);
-            Log.e("JPush_Receiver", "json parse extras param exception");
+        if (extras!=null) {
+            try {
+                JSONObject extrasObject = new JSONObject(extras);
+                put(jsonObject, "extras", extrasObject);
+            } catch (JSONException e) {
+                put(jsonObject, "extras", extras);
+                Log.e("JPush_Receiver", "json parse extras param exception");
+            }
         }
         put(jsonObject,"notificationId",notificationId);
         put(jsonObject,"msgId",msgId);
@@ -142,12 +144,14 @@ public class MyReceiver extends BroadcastReceiver {
         JSONObject jsonObject=new JSONObject();
         put(jsonObject,"title",title);
         put(jsonObject,"content",content);
-        try {
-            JSONObject extrasObject = new JSONObject(extras);
-            put(jsonObject, "extras", extrasObject);
-        } catch (JSONException e) {
-            put(jsonObject, "extras", extras);
-            Log.e("JPush_Receiver", "json parse extras param exception");
+        if (extras!=null) {
+            try {
+                JSONObject extrasObject = new JSONObject(extras);
+                put(jsonObject, "extras", extrasObject);
+            } catch (JSONException e) {
+                put(jsonObject, "extras", extras);
+                Log.e("JPush_Receiver", "json parse extras param exception");
+            }
         }
         put(jsonObject,"notificationId",notificationId);
         put(jsonObject,"type",type);
@@ -168,15 +172,15 @@ public class MyReceiver extends BroadcastReceiver {
         String msgId = bundle.getString(JPushInterface.EXTRA_MSG_ID);
         put(jsonObject, "title", title);
         put(jsonObject, "message",message);
-
-        try {
-            JSONObject extrasObject = new JSONObject(extras);
-            put(jsonObject, "extras", extrasObject);
-        } catch (JSONException e) {
-            put(jsonObject, "extras", extras);
-            Log.e("JPush_Receiver", "json parse extras param exception");
+        if (extras!=null) {
+            try {
+                JSONObject extrasObject = new JSONObject(extras);
+                put(jsonObject, "extras", extrasObject);
+            } catch (JSONException e) {
+                put(jsonObject, "extras", extras);
+                Log.e("JPush_Receiver", "json parse extras param exception");
+            }
         }
-
         put(jsonObject,"type",type);
         put(jsonObject,"file",file);
         put(jsonObject,"msgId",msgId);

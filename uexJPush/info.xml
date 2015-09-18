@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.7" build="7">
-        <info>7:修复setTags和setAlias返回错误的问题</info>
+    <plugin uexName="uexJPush" version="3.0.8" build="8">
+        <info>8:修复通知不含extras时闪退的问题</info>
+        <build>7:修复setTags和setAlias返回错误的问题</build>
         <build>6:解决自定义消息附带extras时，json格式错误的问题</build>
         <build>5:解决获取通知附带extras时，json格式错误的问题</build>
         <build>4:配合修改打包方式</build>

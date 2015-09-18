@@ -144,8 +144,8 @@ public class EUExJPush extends EUExBase implements CallBack {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("result", i);
-                    jsonObject.put("tags", s);
-                    jsonObject.put("alias", set);
+                    jsonObject.put("tags", set);
+                    jsonObject.put("alias", s);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
