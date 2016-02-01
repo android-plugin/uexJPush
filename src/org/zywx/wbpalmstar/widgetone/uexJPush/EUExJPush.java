@@ -149,9 +149,11 @@ public class EUExJPush extends EUExBase implements CallBack {
                 SetTagsResultVO resultVO=new SetTagsResultVO();
                 resultVO.setResult(String.valueOf(i));
                 resultVO.setAlias(s);
-                List<String> tags=new ArrayList<String>();
-                tags.addAll(set);
-                resultVO.setTags(tags);
+                if (set!=null) {
+                    List<String> tags=new ArrayList<String>();
+                    tags.addAll(set);
+                    resultVO.setTags(tags);
+                }
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){"
                         + JsConst.CALLBACK_SETALIASANDTAGS + "('" + DataHelper.gson.toJson(resultVO) + "');}";
                 evaluateRootWindowScript(js);
@@ -188,9 +190,11 @@ public class EUExJPush extends EUExBase implements CallBack {
                 SetTagsResultVO resultVO=new SetTagsResultVO();
                 resultVO.setResult(String.valueOf(i));
                 resultVO.setAlias(s);
-                List<String> tags=new ArrayList<String>();
-                tags.addAll(set);
-                resultVO.setTags(tags);
+                if (set!=null) {
+                    List<String> tags=new ArrayList<String>();
+                    tags.addAll(set);
+                    resultVO.setTags(tags);
+                }
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){"
                         + JsConst.CALLBACK_SETALIAS + "('" + DataHelper.gson.toJson(resultVO)+ "');}";
                 evaluateRootWindowScript(js);
@@ -231,9 +235,11 @@ public class EUExJPush extends EUExBase implements CallBack {
                 SetTagsResultVO resultVO=new SetTagsResultVO();
                 resultVO.setResult(String.valueOf(i));
                 resultVO.setAlias(s);
-                List<String> tags=new ArrayList<String>();
-                tags.addAll(set);
-                resultVO.setTags(tags);
+                if (set!=null) {
+                    List<String> tags=new ArrayList<String>();
+                    tags.addAll(set);
+                    resultVO.setTags(tags);
+                }
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){"
                         + JsConst.CALLBACK_SETTAGS + "('" + DataHelper.gson.toJson(resultVO) + "');}";
                 evaluateRootWindowScript(js);
