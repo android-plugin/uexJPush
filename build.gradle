@@ -2,9 +2,6 @@ apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile files('libs/jpush-sdk-release1.7.3.jar')
-    compile files('libs/AppCanEngine.jar')
-    compile files('libs/AppCanEngine-uexJPush.jar')
 }
 
 android {
@@ -14,6 +11,12 @@ android {
         // 应用的包名
         applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'

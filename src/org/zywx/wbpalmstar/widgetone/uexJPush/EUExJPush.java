@@ -9,10 +9,14 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.widgetone.uexJPush.vo.SetTagsResultVO;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -141,17 +145,15 @@ public class EUExJPush extends EUExBase implements CallBack {
         JPushInterface.setAliasAndTags(mContext.getApplicationContext(), alias, JPushInterface.filterValidTags(tags), new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("result", i);
-                    jsonObject.put("tags", set);
-                    jsonObject.put("alias", s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String data = jsonObject.toString();
+
+                SetTagsResultVO resultVO=new SetTagsResultVO();
+                resultVO.setResult(String.valueOf(i));
+                resultVO.setAlias(s);
+                List<String> tags=new ArrayList<String>();
+                tags.addAll(set);
+                resultVO.setTags(tags);
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){"
-                        + JsConst.CALLBACK_SETALIASANDTAGS + "('" + data + "');}";
+                        + JsConst.CALLBACK_SETALIASANDTAGS + "('" + DataHelper.gson.toJson(resultVO) + "');}";
                 evaluateRootWindowScript(js);
             }
         });
@@ -183,19 +185,15 @@ public class EUExJPush extends EUExBase implements CallBack {
         JPushInterface.setAlias(mContext.getApplicationContext(), alias, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("result", i);
-                    jsonObject.put("tags", set);
-                    jsonObject.put("alias", s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String data = jsonObject.toString();
+                SetTagsResultVO resultVO=new SetTagsResultVO();
+                resultVO.setResult(String.valueOf(i));
+                resultVO.setAlias(s);
+                List<String> tags=new ArrayList<String>();
+                tags.addAll(set);
+                resultVO.setTags(tags);
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){"
-                        + JsConst.CALLBACK_SETALIAS + "('" + data + "');}";
+                        + JsConst.CALLBACK_SETALIAS + "('" + DataHelper.gson.toJson(resultVO)+ "');}";
                 evaluateRootWindowScript(js);
-
             }
         });
      }
@@ -230,17 +228,14 @@ public class EUExJPush extends EUExBase implements CallBack {
         JPushInterface.setTags(mContext.getApplicationContext(), JPushInterface.filterValidTags(tags), new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("result", i);
-                    jsonObject.put("tags", set);
-                    jsonObject.put("alias", s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String data = jsonObject.toString();
+                SetTagsResultVO resultVO=new SetTagsResultVO();
+                resultVO.setResult(String.valueOf(i));
+                resultVO.setAlias(s);
+                List<String> tags=new ArrayList<String>();
+                tags.addAll(set);
+                resultVO.setTags(tags);
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){"
-                        + JsConst.CALLBACK_SETTAGS + "('" + data + "');}";
+                        + JsConst.CALLBACK_SETTAGS + "('" + DataHelper.gson.toJson(resultVO) + "');}";
                 evaluateRootWindowScript(js);
             }
         });
