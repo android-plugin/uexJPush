@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.zywx.wbpalmstar.widgetone.uexJPushDemo"
+    package="org.zywx.wbpalmstar.widgetone.uexjpush"
+    android:installLocation="internalOnly"
     android:versionCode="300"
-    android:versionName="3.0"
-    android:installLocation="internalOnly" >
-    
-    <uses-sdk 
-        android:minSdkVersion="4"/>
+    android:versionName="3.0" >
+
+    <uses-sdk android:minSdkVersion="11" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- uexJPush -->
     <!-- Required -->
-    <permission android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo.permission.JPUSH_MESSAGE"
+    <permission
+        android:name="org.zywx.wbpalmstar.widgetone.uexjpush.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-
-    <!-- Required -->
-    <uses-permission android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo.permission.JPUSH_MESSAGE" />
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="org.zywx.wbpalmstar.widgetone.uexjpush.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!--since 1.6.0 -->
-
-    <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
-        android:xlargeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true" />
-    
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
     <application
         android:name="org.zywx.wbpalmstar.widgetone.WidgetOneApplication"
+        android:allowBackup="true"
         android:allowClearUserData="false"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/icon"
-        android:label="@string/app_name" 
-		android:hardwareAccelerated="false"
-		android:allowBackup="true"
-		android:vmSafeMode="true">
+        android:label="@string/app_name"
+        android:vmSafeMode="true" >
         <activity
             android:name="org.zywx.wbpalmstar.engine.EBrowserActivity"
             android:alwaysRetainTaskState="true"
@@ -62,27 +61,55 @@
             android:theme="@style/browser_main_theme"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
-        <activity android:name="org.zywx.wbpalmstar.engine.TempActivity"
+        <activity
+            android:name="org.zywx.wbpalmstar.engine.TempActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/browser_loading_theme"/>
-        <activity android:name="org.zywx.wbpalmstar.engine.LoadingActivity"
+            android:theme="@style/browser_loading_theme" />
+        <activity
+            android:name="org.zywx.wbpalmstar.engine.LoadingActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/browser_loading_theme"
-            android:screenOrientation="portrait"
             android:launchMode="standard"
-            >
+            android:screenOrientation="portrait"
+            android:theme="@style/browser_loading_theme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Required -->
+
+        <!-- uexJPush -->
+        <!-- Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+            </intent-filter>
+        </activity>
+        <!-- Required  SDK核心功能 -->
+        <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
+        <!-- 如：android:process=":remote" -->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":uexjpush" >
+        </service>
+
+        <!-- Required SDK 核心功能 -->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false"
+            android:process=":uexjpush" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -91,58 +118,113 @@
             </intent-filter>
         </service>
 
+        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":uexjpush" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+            </intent-filter>
+        </service>
+
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true" >
-            <intent-filter android:priority="1000"> <!--since 1.3.5 -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!--since 1.3.5 -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo" /> <!--since 1.3.5 -->
-            </intent-filter> <!--since 1.3.5 -->
+            android:enabled="true"
+            android:exported="false"
+            android:process=":uexjpush" >
+            <intent-filter android:priority="1000" >
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required  显示通知栏 -->
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
+            <!-- Optional -->
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
+        <!-- Required SDK核心功能 -->
         <receiver
-            android:name="org.zywx.wbpalmstar.widgetone.uexJPush.MyReceiver"
-            android:enabled="true">
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false"
+            android:process=":uexjpush" />
+
+        <!-- 中转广播接收器，在uexjpush进程里 -->
+        <!-- 用来在App被退出后，继续接收极光推送广播，并在被点击时唤醒App -->
+        <receiver
+            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.TransitReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":uexjpush" >
             <intent-filter>
+
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required  用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+
+                <!-- 接受极光推送Intent -->
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden" >
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo" />
-            </intent-filter>
-        </activity>
-        <!-- Required SDK核心功能-->
-        <service
-            android:name="cn.jpush.android.service.DownloadService"
+        <!-- 用户自定义的广播接收器 -->
+        <receiver
+            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"
             android:enabled="true"
             android:exported="false" >
-        </service>
-        <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+            <intent-filter>
 
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <!-- Required. AppKey copied from Portal -->
-        <meta-data android:name="JPUSH_APPKEY" android:value="f5082ea5a42b5449cf8872a8"/>
+                <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+
+                <!-- 接收中转Receiver转发后的Intent -->
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+
+        <!-- </>值来自开发者平台取得的AppKey -->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="9282fb2953da393b66f13304" />
     </application>
 
 </manifest>

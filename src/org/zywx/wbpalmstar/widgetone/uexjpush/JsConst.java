@@ -1,4 +1,4 @@
-package org.zywx.wbpalmstar.widgetone.uexJPush;
+package org.zywx.wbpalmstar.widgetone.uexjpush;
 
 public class JsConst {
 

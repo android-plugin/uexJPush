@@ -1,4 +1,4 @@
-package org.zywx.wbpalmstar.widgetone.uexJPush;
+package org.zywx.wbpalmstar.widgetone.uexjpush;
 
 /**
  * Created by ylt on 15/4/1.
