@@ -8,12 +8,16 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.widgetone.uexjpush.CallBack;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
 
 import java.util.List;
@@ -30,6 +34,9 @@ public class MyReceiver extends BroadcastReceiver {
 
 	// 能收到的Intent必须含有该category
 	public static final String CATEGORY = "org.zywx.wbpalmstar.widgetone.uexjpush.transit";
+
+	// 删除数据库中的所有Intent广播
+	public static final String BROADCAST_DELETE_ALL_INTENTS_IN_DB = "org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -143,6 +150,18 @@ public class MyReceiver extends BroadcastReceiver {
 				e.printStackTrace();
 				MLog.getIns().e(e);
 			}
+		}
+
+		/*
+		 * 删除DB中所有Intent的广播
+		 */
+		if (intent.getAction() == BROADCAST_DELETE_ALL_INTENTS_IN_DB) {
+
+			MLog.getIns().i("删除DB中所有Intent的广播");
+
+			DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
+			SQLiteDatabase db = helper.getWritableDatabase();
+			DBFunction.deleteAllIntents(db);
 		}
 
 		/*

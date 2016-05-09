@@ -2,9 +2,10 @@ package org.zywx.wbpalmstar.widgetone.uexjpush.receiver;
 
 import java.util.List;
 
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.SharedPreferencesUtil;
-
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.sqlite.SQLiteDatabase;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -27,6 +29,9 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class TransitReceiver extends BroadcastReceiver {
 
+	private DBHelper mDBHelper;
+	private SQLiteDatabase mDB;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
@@ -34,22 +39,27 @@ public class TransitReceiver extends BroadcastReceiver {
 
 		MLog.getIns().i("action = " + intent.getAction());
 
+		// 初始化数据库
+		initDB(context.getApplicationContext());
+
 		// 如果App不在前台
 		if (!isAppForground(context)) {
 
-			// 将Intent放在SharedPreferences中
-			boolean result = SharedPreferencesUtil.saveIntent(context.getApplicationContext(), intent);
-			MLog.getIns().d("将Intent放在SharedPreferences的结果 = " + result);
+			// 把Intent存到数据库中
+			DBFunction.insertIntent(mDB, intent);
 		}
 
 		// 如果是点击广播，尝试启动App
 		if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 
-			// 如果App不在前台
-			if (!isAppForground(context)) {
+			if (!isAppForground(context)) {// 如果App不在前台
 
-				// 启动App
-				runApp(context);
+				runApp(context);// 启动App
+
+				// boolean result =
+				// SharedPreferencesUtil.saveIntent(context.getApplicationContext(),
+				// intent);// 将Intent放在SharedPreferences中
+				// MLog.getIns().d("将Intent放在SharedPreferences的结果 = " + result);
 			}
 		}
 
@@ -67,6 +77,21 @@ public class TransitReceiver extends BroadcastReceiver {
 		// 发送新的广播
 		context.sendBroadcast(intent2);
 
+	}
+
+	/**
+	 * 初始化数据库
+	 * 
+	 * @param context
+	 */
+	private void initDB(Context context) {
+
+		MLog.getIns().d("start");
+
+		if (mDBHelper == null) {
+			mDBHelper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
+		}
+		mDB = mDBHelper.getWritableDatabase();
 	}
 
 	/**
@@ -92,7 +117,7 @@ public class TransitReceiver extends BroadcastReceiver {
 	 * 
 	 * @param context
 	 */
-	public static void runApp(Context context) {
+	public void runApp(Context context) {
 		String packageName = context.getApplicationInfo().packageName;
 		PackageInfo pi;
 		try {

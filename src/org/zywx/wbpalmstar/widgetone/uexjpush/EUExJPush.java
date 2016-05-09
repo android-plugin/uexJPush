@@ -3,6 +3,7 @@ package org.zywx.wbpalmstar.widgetone.uexjpush;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -13,9 +14,11 @@ import org.json.JSONObject;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
+import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
 import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.SharedPreferencesUtil;
 import org.zywx.wbpalmstar.widgetone.uexjpush.vo.SetTagsResultVO;
 
 import java.util.ArrayList;
@@ -89,16 +92,47 @@ public class EUExJPush extends EUExBase implements CallBack {
 		// 初始化极光推送
 		JPushInterface.init(context.getApplicationContext());
 
+		// if (MyReceiver.callBack != null) {
+		// Intent localIntent =
+		// SharedPreferencesUtil.getIntent(context.getApplicationContext());
+		// if (localIntent == null) {
+		// MLog.getIns().e("localIntent == null");
+		// } else {
+		// // 发送广播
+		// context.sendBroadcast(localIntent);
+		// // 清除SP中的Intent
+		// SharedPreferencesUtil.clear(context.getApplicationContext());
+		// }
+		// }
+
 		if (MyReceiver.callBack != null) {
-			Intent localIntent = SharedPreferencesUtil.getIntent(context.getApplicationContext());
-			if (localIntent == null) {
-				MLog.getIns().e("localIntent == null");
-			} else {
-				// 发送广播
-				context.sendBroadcast(localIntent);
-				// 清除SP中的Intent
-				SharedPreferencesUtil.clear(context.getApplicationContext());
-			}
+
+			// 获得数据库对象
+			final Context contextFinal = context;
+			DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
+			final SQLiteDatabase db = helper.getWritableDatabase();
+
+			// 新建线程操作数据库
+			new Thread() {
+				public void run() {
+
+					List<Integer> intentsIdList = DBFunction.queryAllIntentsId(db);
+					if (intentsIdList.size() == 0) {// 如果数据库中没有intent
+						return;
+					}
+					for (int i = 0; i < intentsIdList.size(); i++) {
+						Intent intent = DBFunction.getIntentById(db, intentsIdList.get(i));// 从数据库中获得Intent
+						contextFinal.sendBroadcast(intent);// 发送广播
+					}
+					// 发送删除DB中所有Intent的广播
+					// 至于为什么不用handler，因为这里不能直接使用mHandler，传进来又太麻烦，所以直接发广播好了
+					Intent intent = new Intent();
+					intent.setAction(MyReceiver.BROADCAST_DELETE_ALL_INTENTS_IN_DB);
+					intent.addCategory(MyReceiver.CATEGORY);
+					contextFinal.sendBroadcast(intent);
+				};
+			}.start();
+
 		}
 
 		if (MyReceiver.offlineIntent != null && MyReceiver.callBack != null) {
@@ -681,5 +715,6 @@ public class EUExJPush extends EUExBase implements CallBack {
 	 */
 	private void evaluateRootWindowScript(String script) {
 		evaluateScript("root", 0, script);
+		// onCallback(script);
 	}
 }
