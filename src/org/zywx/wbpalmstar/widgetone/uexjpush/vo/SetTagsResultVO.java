@@ -17,7 +17,7 @@
  *
  */
 
-package org.zywx.wbpalmstar.widgetone.uexJPush.vo;
+package org.zywx.wbpalmstar.widgetone.uexjpush.vo;
 
 import java.io.Serializable;
 import java.util.List;

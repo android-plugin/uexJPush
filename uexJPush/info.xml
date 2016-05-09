@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.9" build="9">
-        <info>9:修复setTags返回格式不正确的问题</info>
+    <plugin uexName="uexJPush" version="3.0.13" build="13">
+        <info>13:为了避免后台进程将广播消耗，导致应用接收不到推送回调，当App在后台时，
+                              将Intent存入SQLite数据库中；App打开后重新发送广播，并清空数据库</info>
+        <build>12.1:修复了Manifest文件书写错误导致的应用崩溃的问题
+               12.2:修复了Manifest文件忘记添加权限的问题</build>
+        <build>11:设置中转广播接收器，用来在另一个进程中启动App，并转发广播
+               11.1:由于广播发出时App还未启动，导致Intent丢失，改为将Intent保存在SP中
+               11.2:规范包名，增加log</build>
+        <build>10:增加应用程序退出后仍能收到推送的功能
+               10.1:更新到最新的极光推送SDK，SDK2.0.5版本后，可将推送Service放入另一个进程中
+               10.2:将极光推送Service和Receiver放入uexjpush单独进程中</build>
+        <build>9:修复setTags返回格式不正确的问题</build>
         <build>8:修复通知不含extras时闪退的问题</build>
         <build>7:修复setTags和setAlias返回错误的问题</build>
         <build>6:解决自定义消息附带extras时，json格式错误的问题</build>

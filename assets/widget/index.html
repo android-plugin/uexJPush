@@ -165,21 +165,21 @@
     }
 
     function onReceiveRegistration(info){
-        alert(info);
+        alert("----onReceiveRegistration----\n"+info);
     }
 
     function onReceiveMessage(info){
         console.log(info);
-        alert(info);
+        alert("----onReceiveMessage----\n"+info);
     }
 
     function onReceiveNotification(info){
-    console.log(info);
-        alert(info);
+    	console.log(info);
+        alert("----onReceiveNotification----\n"+info);
     }
 
     function onReceiveNotificationOpen(info){
-        alert("Open "+info);
+        alert("----onReceiveNotificationOpen----\n"+info);
     }
 
     function cbSetAliasAndTags(info){
@@ -221,10 +221,6 @@
             uexJPush.onReceiveConnectionChange = onReceiveConnectionChange;
 		}
 	}
-
-
-
-
 
     </script>
 </head>
@@ -268,7 +264,8 @@
 
 		<input class='btn' type='button' value='clearLocalNotifications' onclick='clearLocalNotifications()'>
 
-
+		<input class='btn' type='button' value='finishWidget' onclick='uexWidget.finishWidget()'>
+		
 	</div>
 </div>
 </body>
