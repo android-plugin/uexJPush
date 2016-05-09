@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <script type="text/javascript">
+
+	function stopPush(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.stopPush(data);
+	}
+
+	function resumePush(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.resumePush(data);
+	}
+
+	function isPushStopped(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.isPushStopped(data);
+	}
+
+	function setAliasAndTags(){
+		var tags=new Array("tag4","tag5","tag6");
+		var params = {
+			alias:"alias66",
+			tags:tags
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setAliasAndTags(data);
+	}
+
+	function setAlias(){
+		var params = {
+			alias:"alias22"
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setAlias(data);
+	}
+
+	function setTags(){
+		var tags=new Array("tag1","tag2","tag3");
+		var params = {
+			tags:tags
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setTags(data);
+	}
+
+	function getRegistrationID(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.getRegistrationID(data);
+	}
+
+	function reportNotificationOpened(){
+		var params = {
+			msgId:1222
+		};
+		var data = JSON.stringify(params);
+		uexJPush.reportNotificationOpened(data);
+	}
+
+	function clearAllNotifications(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.clearAllNotifications(data);
+	}
+
+	function clearNotificationById(){
+		var id = document.getElementById("clearNotificationById").value;
+		var params = {
+			notificationId:id
+		};
+		var data = JSON.stringify(params);
+		uexJPush.clearNotificationById(data);
+	}
+
+	function setPushTime(){
+		var weekDays=new Array("0","1","2","3","4");
+		var params = {
+			weekDays:weekDays,
+			startHour:0,
+			endHour:18
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setPushTime(data);
+	}
+
+	function setSilenceTime(){
+		var params = {
+			startHour:0,
+			startMinute:1,
+			endHour:13,
+			endMinute:0
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setSilenceTime(data);
+	}
+
+	function setLatestNotificationNumber(){
+		var params = {
+			maxNum:4
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setLatestNotificationNumber(data);
+	}
+
+	function getConnectionState(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.getConnectionState(data);
+	}
+
+	function addLocalNotification(){
+		var params = {
+			builderId:0,
+			title:"这是title",
+			content:"这是内容",
+			extras:{"key":"value"},
+			notificationId:3,
+			broadCastTime:10000
+		};
+		var data = JSON.stringify(params);
+		uexJPush.addLocalNotification(data);
+	}
+
+	function removeLocalNotification(){
+		var notificationId=3;
+		var params = {
+			notificationId:notificationId
+		};
+		var data = JSON.stringify(params);
+		uexJPush.removeLocalNotification(data);
+	}
+
+	function clearLocalNotifications(){
+		var params = {
+
+		};
+		var data = JSON.stringify(params);
+		uexJPush.clearLocalNotifications(data);
+	}
+
+    function cbIsPushStopped(info){
+        alert(info);
+    }
+
+    function onReceiveRegistration(info){
+        alert("----onReceiveRegistration----\n"+info);
+    }
+
+    function onReceiveMessage(info){
+        console.log(info);
+        alert("----onReceiveMessage----\n"+info);
+    }
+
+    function onReceiveNotification(info){
+    	console.log(info);
+        alert("----onReceiveNotification----\n"+info);
+    }
+
+    function onReceiveNotificationOpen(info){
+        alert("----onReceiveNotificationOpen----\n"+info);
+    }
+
+    function cbSetAliasAndTags(info){
+        alert(info);
+    }
+
+    function cbSetAlias(info){
+        alert(info);
+    }
+
+    function cbSetTags(info){
+        alert(info);
+    }
+
+    function cbGetRegistrationID(info){
+        alert(info);
+    }
+
+    function cbGetConnectionState(info){
+        alert(info);
+    }
+
+    function onReceiveConnectionChange(info){
+        alert(info);
+    }
+
+	window.uexOnload = function(type){
+		if(type == 0){  
+			uexJPush.cbIsPushStopped = cbIsPushStopped;
+            uexJPush.onReceiveRegistration = onReceiveRegistration;
+            uexJPush.onReceiveMessage = onReceiveMessage;
+            uexJPush.onReceiveNotification = onReceiveNotification;
+            uexJPush.onReceiveNotificationOpen = onReceiveNotificationOpen;
+            uexJPush.cbSetAliasAndTags = cbSetAliasAndTags;
+            uexJPush.cbSetAlias = cbSetAlias;
+            uexJPush.cbSetTags = cbSetTags;
+            uexJPush.cbGetRegistrationID = cbGetRegistrationID;
+            uexJPush.cbGetConnectionState = cbGetConnectionState;
+            uexJPush.onReceiveConnectionChange = onReceiveConnectionChange;
+		}
+	}
+
+    </script>
+</head>
+
+<body>
+<div class="tit">uexDemo对象</div>
+<div class="conbor">
+    <div class="consj">
+
+		<input class='btn' type='button' value='stopPush' onclick='stopPush()'>
+
+		<input class='btn' type='button' value='resumePush' onclick='resumePush()'>
+
+		<input class='btn' type='button' value='isPushStopped' onclick='isPushStopped()'>
+
+		<input class='btn' type='button' value='setAliasAndTags' onclick='setAliasAndTags()'>
+
+		<input class='btn' type='button' value='setAlias' onclick='setAlias()'>
+
+		<input class='btn' type='button' value='setTags' onclick='setTags()'>
+
+		<input class='btn' type='button' value='getRegistrationID' onclick='getRegistrationID()'>
+
+		<input class='btn' type='button' value='reportNotificationOpened' onclick='reportNotificationOpened()'>
+
+		<input class='btn' type='button' value='clearAllNotifications' onclick='clearAllNotifications()'>
+		<input class="textbox" type="text" id="clearNotificationById" value="579690032">
+		<input class='btn' type='button' value='clearNotificationById' onclick='clearNotificationById()'>
+
+		<input class='btn' type='button' value='setPushTime' onclick='setPushTime()'>
+
+		<input class='btn' type='button' value='setSilenceTime' onclick='setSilenceTime()'>
+
+		<input class='btn' type='button' value='setLatestNotificationNumber' onclick='setLatestNotificationNumber()'>
+
+		<input class='btn' type='button' value='getConnectionState' onclick='getConnectionState()'>
+
+		<input class='btn' type='button' value='addLocalNotification' onclick='addLocalNotification()'>
+
+		<input class='btn' type='button' value='removeLocalNotification' onclick='removeLocalNotification()'>
+
+		<input class='btn' type='button' value='clearLocalNotifications' onclick='clearLocalNotifications()'>
+
+		<input class='btn' type='button' value='finishWidget' onclick='uexWidget.finishWidget()'>
+		
+	</div>
+</div>
+</body>
+</html>
