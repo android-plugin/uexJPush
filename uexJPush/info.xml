@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.14.2" build="14">
+    <plugin uexName="uexJPush" version="3.0.14" build="14">
         <info>14:修复了缺少配置GET_TASKS权限导致的部分机型程序崩溃问题
               14.1:修复了数据库推送不自动清空的问题
               14.2:升级SDK支持64位uid</info>
