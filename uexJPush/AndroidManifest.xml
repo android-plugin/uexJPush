@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!-- uexJPush -->
     <!-- Required SDK核心功能 -->
@@ -150,6 +151,8 @@
             <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
             <!-- 接收网络变化 连接/断开 since 1.6.3 -->
             <action android:name="cn.jpush.android.intent.CONNECTION" />
+            <!-- 自定义，删除DB中所有的Intent -->
+            <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB" />
 
             <!-- 接收中转Receiver转发后的Intent -->
             <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />
