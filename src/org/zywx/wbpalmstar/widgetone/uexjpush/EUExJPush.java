@@ -92,6 +92,7 @@ public class EUExJPush extends EUExBase implements CallBack {
 		// 初始化极光推送
 		JPushInterface.init(context.getApplicationContext());
 
+		// // SharedPreferences操作
 		// if (MyReceiver.callBack != null) {
 		// Intent localIntent =
 		// SharedPreferencesUtil.getIntent(context.getApplicationContext());
@@ -105,6 +106,7 @@ public class EUExJPush extends EUExBase implements CallBack {
 		// }
 		// }
 
+		// 数据库操作
 		if (MyReceiver.callBack != null) {
 
 			// 获得数据库对象
@@ -112,10 +114,8 @@ public class EUExJPush extends EUExBase implements CallBack {
 			DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
 			final SQLiteDatabase db = helper.getWritableDatabase();
 
-			// 新建线程操作数据库
 			new Thread() {
 				public void run() {
-
 					List<Integer> intentsIdList = DBFunction.queryAllIntentsId(db);
 					if (intentsIdList.size() == 0) {// 如果数据库中没有intent
 						return;
@@ -132,7 +132,6 @@ public class EUExJPush extends EUExBase implements CallBack {
 					contextFinal.sendBroadcast(intent);
 				};
 			}.start();
-
 		}
 
 		if (MyReceiver.offlineIntent != null && MyReceiver.callBack != null) {
@@ -714,7 +713,7 @@ public class EUExJPush extends EUExBase implements CallBack {
 	 * @param script
 	 */
 	private void evaluateRootWindowScript(String script) {
+		MLog.getIns().i("发送给前端的数据script = " + script);
 		evaluateScript("root", 0, script);
-		// onCallback(script);
 	}
 }

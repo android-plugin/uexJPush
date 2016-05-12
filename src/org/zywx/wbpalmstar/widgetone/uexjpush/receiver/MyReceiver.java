@@ -72,6 +72,7 @@ public class MyReceiver extends BroadcastReceiver {
 			return;
 		}
 
+		MLog.getIns().i("EUExJPush的实例callback = " + callBack.toString());
 		Bundle bundle = intent.getExtras();
 
 		/*
