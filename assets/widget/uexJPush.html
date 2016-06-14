@@ -39,7 +39,9 @@
 			tags:tags
 		};
 		var data = JSON.stringify(params);
-		uexJPush.setAliasAndTags(data);
+		uexJPush.setAliasAndTags(data, function(data) {
+		    alert("4.0 setAliasAndTags callback:" + JSON.stringify(data));
+		});
 	}
 
 	function setAlias(){
@@ -47,7 +49,9 @@
 			alias:"alias22"
 		};
 		var data = JSON.stringify(params);
-		uexJPush.setAlias(data);
+		uexJPush.setAlias(data, function(data) {
+		    alert("4.0 setAlias callback:" + JSON.stringify(data));
+		});
 	}
 
 	function setTags(){
@@ -56,7 +60,9 @@
 			tags:tags
 		};
 		var data = JSON.stringify(params);
-		uexJPush.setTags(data);
+		uexJPush.setTags(data, function(data) {
+		    alert("4.0 setTags callback:" + JSON.stringify(data));
+		});
 	}
 
 	function getRegistrationID(){
@@ -64,7 +70,8 @@
 
 		};
 		var data = JSON.stringify(params);
-		uexJPush.getRegistrationID(data);
+		var id = uexJPush.getRegistrationID(data);
+		alert("4.0 getRegistrationID:" + id);
 	}
 
 	function reportNotificationOpened(){
@@ -123,11 +130,9 @@
 	}
 
 	function getConnectionState(){
-		var params = {
-
-		};
-		var data = JSON.stringify(params);
-		uexJPush.getConnectionState(data);
+		uexJPush.getConnectionState(function(data) {
+		    alert("4.0 getConnectionState:" + data);
+		});
 	}
 
 	function addLocalNotification(){
@@ -207,7 +212,7 @@
     }
 
 	window.uexOnload = function(type){
-		if(type == 0){  
+		if(type == 0){
 			uexJPush.cbIsPushStopped = cbIsPushStopped;
             uexJPush.onReceiveRegistration = onReceiveRegistration;
             uexJPush.onReceiveMessage = onReceiveMessage;
@@ -265,7 +270,7 @@
 		<input class='btn' type='button' value='clearLocalNotifications' onclick='clearLocalNotifications()'>
 
 		<input class='btn' type='button' value='finishWidget' onclick='uexWidget.finishWidget()'>
-		
+
 	</div>
 </div>
 </body>
