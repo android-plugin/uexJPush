@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.zywx.wbpalmstar.widgetone.uexjpush"
+    package="com.zymobi.miaoxin"
     android:installLocation="internalOnly"
     android:versionCode="300"
     android:versionName="3.0" >
 
-    <uses-sdk android:minSdkVersion="13" />
+    <uses-sdk android:minSdkVersion="14" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,10 +21,10 @@
     <!-- uexJPush -->
     <!-- Required -->
     <permission
-        android:name="org.zywx.wbpalmstar.widgetone.uexjpush.permission.JPUSH_MESSAGE"
+        android:name="com.zymobi.miaoxin.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
     <!-- Required  一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="org.zywx.wbpalmstar.widgetone.uexjpush.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.zymobi.miaoxin.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -47,33 +47,16 @@
 
     <application
         android:name="org.zywx.wbpalmstar.widgetone.WidgetOneApplication"
-        android:allowBackup="true"
-        android:allowClearUserData="false"
-        android:hardwareAccelerated="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light.NoActionBar"
         android:vmSafeMode="true" >
         <activity
-            android:name="org.zywx.wbpalmstar.engine.EBrowserActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
-        <activity
-            android:name="org.zywx.wbpalmstar.engine.TempActivity"
-            android:launchMode="standard"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
-        <activity
             android:name="org.zywx.wbpalmstar.engine.LoadingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+            android:theme="@style/browser_loading_theme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,7 +75,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+                <category android:name="com.zymobi.miaoxin" />
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能 -->
@@ -130,7 +113,7 @@
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
 
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+                <category android:name="com.zymobi.miaoxin" />
             </intent-filter>
         </service>
 
@@ -143,7 +126,7 @@
             <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!-- Required  显示通知栏 -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+                <category android:name="com.zymobi.miaoxin" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -167,7 +150,7 @@
         <!-- 中转广播接收器，在uexjpush进程里 -->
         <!-- 用来在App被退出后，继续接收极光推送广播，并在被点击时唤醒App -->
         <receiver
-            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.TransitReceiver"
+            android:name="com.zymobi.miaoxin.receiver.TransitReceiver"
             android:enabled="true"
             android:exported="false"
             android:process=":uexjpush" >
@@ -188,13 +171,13 @@
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
 
                 <!-- 接受极光推送Intent -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush" />
+                <category android:name="com.zymobi.miaoxin" />
             </intent-filter>
         </receiver>
 
         <!-- 用户自定义的广播接收器 -->
         <receiver
-            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"
+            android:name="com.zymobi.miaoxin.receiver.MyReceiver"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -213,10 +196,10 @@
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 自定义，删除DB中所有的Intent -->
-                <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB" />
+                <action android:name="com.zymobi.miaoxin.BROADCAST_DELETE_INTENTS_IN_DB" />
 
                 <!-- 接收中转Receiver转发后的Intent -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />
+                <category android:name="com.zymobi.miaoxin.transit" />
             </intent-filter>
         </receiver>
 
@@ -228,7 +211,7 @@
         <!-- </>值来自开发者平台取得的AppKey -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="9282fb2953da393b66f13304" />
+            android:value="ecd5e9bcf057a5b96a3e7e30" />
     </application>
 
 </manifest>

@@ -1,15 +1,23 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile(name: "Engine-system-debug-4.0.0", ext: 'aar')
 }
+
 
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0"
     defaultConfig {
         // 应用的包名
-        applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
+        applicationId "com.zymobi.miaoxin"
     }
 
     packagingOptions {
