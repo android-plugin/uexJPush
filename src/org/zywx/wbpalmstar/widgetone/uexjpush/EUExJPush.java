@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -231,7 +232,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             return;
         }
         String json = params[0];
-        Set<String> tags = new HashSet<String>();
+        Set<String> tags = new TreeSet<String>();
         try {
             JSONObject jsonObject = new JSONObject(json);
             JSONArray jsonArray = jsonObject.getJSONArray("tags");
