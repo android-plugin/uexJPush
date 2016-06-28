@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -169,14 +168,15 @@ public class EUExJPush extends EUExBase implements CallBack {
                     resultVO.setTags(tags);
                 }
                 String result = DataHelper.gson.toJson(resultVO);
-                String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){" + JsConst.CALLBACK_SETALIASANDTAGS + "('" + result + "');}";
-                evaluateRootWindowScript(js);
                 if (funcId != null) {
                     try {
                         callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){" + JsConst.CALLBACK_SETALIASANDTAGS + "('" + result + "');}";
+                    evaluateRootWindowScript(js);
                 }
             }
         });
@@ -211,14 +211,15 @@ public class EUExJPush extends EUExBase implements CallBack {
                     resultVO.setTags(tags);
                 }
                 String result = DataHelper.gson.toJson(resultVO);
-                String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){" + JsConst.CALLBACK_SETALIAS + "('" + result + "');}";
-                evaluateRootWindowScript(js);
                 if (funcId != null) {
                     try {
                         callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){" + JsConst.CALLBACK_SETALIAS + "('" + result + "');}";
+                    evaluateRootWindowScript(js);
                 }
             }
         });
@@ -258,14 +259,15 @@ public class EUExJPush extends EUExBase implements CallBack {
                     resultVO.setTags(tags);
                 }
                 String result = DataHelper.gson.toJson(resultVO);
-                String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){" + JsConst.CALLBACK_SETTAGS + "('" + result + "');}";
-                evaluateRootWindowScript(js);
                 if (funcId != null) {
                     try {
                         callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){" + JsConst.CALLBACK_SETTAGS + "('" + result + "');}";
+                    evaluateRootWindowScript(js);
                 }
             }
         });
@@ -398,10 +400,11 @@ public class EUExJPush extends EUExBase implements CallBack {
             int result = JPushInterface.getConnectionState(mContext.getApplicationContext()) ? 0 : 1;
             jsonObject.put("result", result);
             String data = jsonObject.toString();
-            String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETCONNECTIONSTATE + "){" + JsConst.CALLBACK_GETCONNECTIONSTATE + "('" + data + "');}";
-            evaluateRootWindowScript(js);
             if (null != funcId) {
                 callbackToJs(Integer.parseInt(funcId), false, result);
+            } else {
+                String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETCONNECTIONSTATE + "){" + JsConst.CALLBACK_GETCONNECTIONSTATE + "('" + data + "');}";
+                evaluateRootWindowScript(js);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -435,7 +438,6 @@ public class EUExJPush extends EUExBase implements CallBack {
             ln.setTitle(title);
             ln.setNotificationId(notificationId);
             long atTime = System.currentTimeMillis() + broadCastTime;
-            Log.i("ylt", atTime + "");
             ln.setBroadcastTime(atTime);
             ln.setExtras(extras);
             JPushInterface.addLocalNotification(mContext.getApplicationContext(), ln);

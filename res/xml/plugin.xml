@@ -2,8 +2,7 @@
 <uexplugins>
 	<plugin
         className="org.zywx.wbpalmstar.widgetone.uexjpush.EUExJPush"
-        uexName="uexJPush"
-        global="true">
+        uexName="uexJPush">
             <method name="stopPush" />
             <method name="resumePush" />
             <method name="isPushStopped"/>

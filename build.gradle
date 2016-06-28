@@ -1,7 +1,22 @@
-apply plugin: 'android'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+    }
+}
 
+apply plugin: 'com.android.application'
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile(name: "Engine-system-debug-4.0.0", ext: 'aar')
 }
 
 android {
@@ -42,3 +57,5 @@ android {
         release.setRoot('build-types/release')
     }
 }
+apply from: "https://raw.githubusercontent.com/android-plugin/gradle-plugin/master/buildPlugin.gradle"
+
