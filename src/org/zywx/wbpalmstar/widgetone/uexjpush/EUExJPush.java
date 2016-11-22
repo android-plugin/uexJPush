@@ -170,7 +170,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false, i,new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -213,7 +213,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false,i, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -261,7 +261,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false, new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false,i, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -401,7 +401,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             jsonObject.put("result", result);
             String data = jsonObject.toString();
             if (null != funcId) {
-                callbackToJs(Integer.parseInt(funcId), false, result);
+                callbackToJs(Integer.parseInt(funcId), false,0, result);
             } else {
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETCONNECTIONSTATE + "){" + JsConst.CALLBACK_GETCONNECTIONSTATE + "('" + data + "');}";
                 evaluateRootWindowScript(js);
