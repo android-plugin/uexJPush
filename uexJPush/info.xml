@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.0.0" build="15">
-        <info>15.支持function参数传入</info>
-        <build>14:修复了缺少配置GET_TASKS权限导致的部分机型程序崩溃问题
-              14.1:修复了数据库推送不自动清空的问题
-              14.2:升级SDK支持64位uid</build>
-        <build>13:优化了当应用程序正常退出后，依然可以收到推送(所有机型);
-               13.1:注:当用户手动清理内存(杀进程)后,收不到推送是正常现象;若想杀进程后依然收到推送,须手动将App配置进系统白名单</build>
-        <build>12.1:修复了Manifest文件书写错误导致的应用崩溃的问题
-               12.2:修复了Manifest文件忘记添加权限的问题</build>
-        <build>11:设置中转广播接收器，用来在另一个进程中启动App，并转发广播
-               11.1:由于广播发出时App还未启动，导致Intent丢失，改为将Intent保存在SP中
-               11.2:规范包名，增加log</build>
-        <build>10:增加应用程序退出后仍能收到推送的功能
-               10.1:更新到最新的极光推送SDK，SDK2.0.5版本后，可将推送Service放入另一个进程中
-               10.2:将极光推送Service和Receiver放入uexjpush单独进程中</build>
-        <build>9:修复setTags返回格式不正确的问题</build>
-        <build>8:修复通知不含extras时闪退的问题</build>
-        <build>7:修复setTags和setAlias返回错误的问题</build>
-        <build>6:解决自定义消息附带extras时，json格式错误的问题</build>
-        <build>5:解决获取通知附带extras时，json格式错误的问题</build>
-        <build>4:配合修改打包方式</build>
-        <build>3:修复4.4以下版本点击通知闪退的问题</build>
-        <build>2:修复onReceiveNotificationOpen,调整初始化时机</build>
-        <build>1:修复退出应用时收到推送闪退的问题</build>
-        <build>0:极光推送插件</build>
+    <plugin uexName="uexJPush" version="4.0.0" build="0">
+        <info>0.支持function参数传入</info>
     </plugin>
 </uexplugins>
