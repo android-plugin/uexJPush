@@ -4,12 +4,14 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
@@ -17,7 +19,6 @@ import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
 import org.zywx.wbpalmstar.widgetone.uexjpush.vo.SetTagsResultVO;
 
 import java.util.ArrayList;
@@ -53,8 +54,6 @@ public class EUExJPush extends EUExBase implements CallBack {
      */
     public static void onActivityResume(Context context) {
 
-        MLog.getIns().i("start");
-
         // 初始化极光推送
         JPushInterface.init(context.getApplicationContext());
 
@@ -66,7 +65,8 @@ public class EUExJPush extends EUExBase implements CallBack {
             DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
             final SQLiteDatabase db = helper.getWritableDatabase();
 
-            new Thread() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
                 public void run() {
                     List<Integer> intentsIdList = DBFunction.queryAllIntentsId(db);
                     if (intentsIdList.size() == 0) {// 如果数据库中没有intent
@@ -83,15 +83,10 @@ public class EUExJPush extends EUExBase implements CallBack {
                     intent.addCategory(MyReceiver.CATEGORY);
                     contextFinal.sendBroadcast(intent);
                 }
+            },500);//延时是为了能显示alert对话框
 
-                ;
-            }.start();
         }
 
-        if (MyReceiver.offlineIntent != null && MyReceiver.callBack != null) {
-            MyReceiver.handleIntent(context, MyReceiver.offlineIntent);
-            MyReceiver.offlineIntent = null;
-        }
     }
 
     /**
@@ -506,6 +501,7 @@ public class EUExJPush extends EUExBase implements CallBack {
      * @param script
      */
     private void evaluateRootWindowScript(String script) {
+        BDebug.i(script);
         evaluateScript("root", 0, script);
     }
 }
