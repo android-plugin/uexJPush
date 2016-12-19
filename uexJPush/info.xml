@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.0.0" build="0">
-        <info>0.支持function参数传入</info>
+    <plugin uexName="uexJPush" version="4.0.1" build="1">
+        <info>1.修复onReceiveNotificationOpen回调两次的问题</info>
+        <build>0.支持function参数传入</build>
     </plugin>
 </uexplugins>

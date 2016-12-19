@@ -14,15 +14,20 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.widgetone.uexjpush.CallBack;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MyReceiver extends BroadcastReceiver {
+
+    private DBHelper mDBHelper;
+    private SQLiteDatabase mDB;
+
 
     // EUExJPush的引用
     public static CallBack callBack;
@@ -39,22 +44,36 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MLog.getIns().i("start");
-
         String action = intent.getAction();
-        MLog.getIns().i("action = " + action);
-
-        if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            if (!isAppForground(context)) {
-                runApp(context);
-            }
-        }
+        BDebug.d("action = " + action);
         if (callBack == null) {
-            offlineIntent = intent;
+            BDebug.d("插件还未初始化，先缓存 intent");
+
+            // 初始化数据库
+            initDB(context.getApplicationContext());
+            // 把Intent存到数据库中
+            DBFunction.insertIntent(mDB, intent);
             return;
         }
-        offlineIntent = null;
         handleIntent(context, intent);
+
+
+    }
+
+
+    /**
+     * 初始化数据库
+     *
+     * @param context
+     */
+    private void initDB(Context context) {
+
+        BDebug.d("start");
+
+        if (mDBHelper == null) {
+            mDBHelper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
+        }
+        mDB = mDBHelper.getWritableDatabase();
     }
 
     /**
@@ -66,11 +85,10 @@ public class MyReceiver extends BroadcastReceiver {
     public static void handleIntent(Context context, Intent intent) {
 
         if (callBack == null) {
-            MLog.getIns().e("callBack == null");
+            BDebug.e("callBack == null");
             return;
         }
 
-        MLog.getIns().i("EUExJPush的实例callback = " + callBack.toString());
         Bundle bundle = intent.getExtras();
 
 		/*
@@ -79,7 +97,7 @@ public class MyReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
 
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            MLog.getIns().i("接收Registration Id : " + regId);
+            BDebug.i("接收Registration Id : " + regId);
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -87,7 +105,7 @@ public class MyReceiver extends BroadcastReceiver {
                 callBack.onReceiveRegistration(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                MLog.getIns().e(e);
+                BDebug.e(e);
             }
         }
 
@@ -96,7 +114,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 */
         else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
 
-            MLog.getIns().i("接收到推送下来的自定义消息");
+            BDebug.i("接收到推送下来的自定义消息");
 
             callbackMessage(bundle);
         }
@@ -106,8 +124,6 @@ public class MyReceiver extends BroadcastReceiver {
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 
-            MLog.getIns().i("接收到推送下来的通知");
-
             callbackNotification(bundle);
         }
 
@@ -115,8 +131,6 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 用户点击了通知
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-
-            MLog.getIns().i("用户点击打开了通知");
 
             callbackNotificationOpen(bundle);
         }
@@ -126,7 +140,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 */
         else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
 
-            MLog.getIns().i("用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+            BDebug.i("用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
 
             // 在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity，
             // 打开一个网页等..
@@ -139,7 +153,7 @@ public class MyReceiver extends BroadcastReceiver {
         else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
 
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-            MLog.getIns().i("action = " + intent.getAction() + " connected state change to " + connected);
+            BDebug.i("action = " + intent.getAction() + " connected state change to " + connected);
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -147,16 +161,14 @@ public class MyReceiver extends BroadcastReceiver {
                 callBack.onReceiveConnectionChange(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
-                MLog.getIns().e(e);
+                BDebug.e(e);
             }
         }
 
 		/*
 		 * 删除DB中所有Intent的广播
 		 */
-        if (intent.getAction() == BROADCAST_DELETE_ALL_INTENTS_IN_DB) {
-
-            MLog.getIns().i("删除DB中所有Intent的广播");
+        else if ( BROADCAST_DELETE_ALL_INTENTS_IN_DB.equals(intent.getAction())) {
 
             DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
             SQLiteDatabase db = helper.getWritableDatabase();
@@ -167,7 +179,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 未处理到的Intent
 		 */
         else {
-            MLog.getIns().i("Unhandled intent - " + intent.getAction());
+            BDebug.d("Unhandled intent - " + intent.getAction());
         }
     }
 

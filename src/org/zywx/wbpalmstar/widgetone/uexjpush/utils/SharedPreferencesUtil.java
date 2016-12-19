@@ -7,6 +7,7 @@ import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
 
 import java.util.Iterator;
@@ -33,8 +34,8 @@ public class SharedPreferencesUtil {
 
         String action = intent.getAction();
         Bundle bundle = intent.getExtras();
-        MLog.getIns().i("action = " + action);
-        MLog.getIns().i("bundle = " + printBundle(bundle));
+        BDebug.i("action = " , action);
+        BDebug.i("bundle = " , printBundle(bundle));
 
         SharedPreferences.Editor editor = context.getSharedPreferences(SP_INTENT, Context.MODE_MULTI_PROCESS).edit();// 获得SharedPreferences.Editor对象
         editor.putString(SP_INTENT_ACTION, action);// 不管其他的，先把action放进去
@@ -113,11 +114,11 @@ public class SharedPreferencesUtil {
 
         String action = sp.getString(SP_INTENT_ACTION, "");
         if (action.isEmpty()) {
-            MLog.getIns().e("action.isEmpty()");
+            BDebug.e("action.isEmpty()");
             return null;
         }
 
-        MLog.getIns().i("action = " + action);
+        BDebug.i("action = " , action);
 
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
@@ -196,12 +197,12 @@ public class SharedPreferencesUtil {
      */
     public static boolean clear(Context context) {
 
-        MLog.getIns().i("");
+        BDebug.i("");
 
         SharedPreferences.Editor editor = context.getSharedPreferences(SP_INTENT, Context.MODE_MULTI_PROCESS).edit();// 获得SharedPreferences.Editor对象
         editor.clear();
         boolean result = editor.commit();
-        MLog.getIns().d("清除SP中的Intent结果 = " + result);
+        BDebug.d("清除SP中的Intent结果 = " , result);
 
         return result;
     }
@@ -224,7 +225,7 @@ public class SharedPreferencesUtil {
                 sb.append("\nkey:" + key + ", value:" + bundle.getBoolean(key));
             } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
                 if (bundle.getString(JPushInterface.EXTRA_EXTRA).isEmpty()) {
-                    MLog.getIns().i("This message has no Extra data");
+                    BDebug.i("This message has no Extra data");
                     continue;
                 }
 
@@ -240,8 +241,7 @@ public class SharedPreferencesUtil {
                     }
 
                 } catch (JSONException e) {
-                    MLog.getIns().e("Get message extra JSON error!");
-                    MLog.getIns().e(e);
+                    BDebug.e("Get message extra JSON error!");
                 }
 
             } else {

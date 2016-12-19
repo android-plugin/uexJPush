@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
+import org.zywx.wbpalmstar.base.BDebug;
 
 /**
  * 数据库辅助类
@@ -56,10 +56,10 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        MLog.getIns().i("start");
+       BDebug.d("start");
 
         db.execSQL(CREATE_INTENTS_TABLE);
-        MLog.getIns().i("创建Intents数据表成功");
+       BDebug.d("创建Intents数据表成功");
         // Toast.makeText(mContext, "创建Intents数据表成功",
         // Toast.LENGTH_SHORT).show();
     }
@@ -70,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        MLog.getIns().i("start");
+       BDebug.d("onUpgrade");
 
     }
 

@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
+import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class DBFunction {
 
         String action = intent.getAction();
         Bundle bundle = intent.getExtras();
-        MLog.getIns().i("action = " + action);
+        BDebug.d("action = " , action);
 
         values.put(DBConstant.ACTION, action);
 
@@ -88,7 +88,7 @@ public class DBFunction {
             }
         }
 
-        MLog.getIns().i("values = " + values.toString());
+//        BDebug.d("values = " , values.toString());
 
         // 向数据库中插入数据
         db.insert(DBConstant.TABLE_NAME, null, values);
@@ -137,11 +137,11 @@ public class DBFunction {
 
             String action = cursor.getString(cursor.getColumnIndex(DBConstant.ACTION));
             if (action == null) {
-                MLog.getIns().e("action == null");
+                BDebug.e("action == null");
                 cursor.close();
                 return null;
             }
-            MLog.getIns().i("action = " + action);
+            BDebug.i("action = " , action);
 
             intent.setAction(action);
 

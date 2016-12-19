@@ -202,10 +202,10 @@
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 自定义，删除DB中所有的Intent -->
-                <action android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo.BROADCAST_DELETE_INTENTS_IN_DB" />
+                <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB" />
 
                 <!-- 接收中转Receiver转发后的Intent -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexJPushDemo.transit" />
+                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />
             </intent-filter>
         </receiver>
 

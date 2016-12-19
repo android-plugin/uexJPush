@@ -10,10 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import cn.jpush.android.api.JPushInterface;
+import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
-import org.zywx.wbpalmstar.widgetone.uexjpush.utils.MLog;
 
 import java.util.List;
 
@@ -29,25 +29,11 @@ import java.util.List;
  */
 public class TransitReceiver extends BroadcastReceiver {
 
-    private DBHelper mDBHelper;
-    private SQLiteDatabase mDB;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MLog.getIns().i("start");
-
-        MLog.getIns().i("action = " + intent.getAction());
-
-        // 初始化数据库
-        initDB(context.getApplicationContext());
-
-        // 如果App不在前台
-        if (!isAppForground(context)) {
-
-            // 把Intent存到数据库中
-            DBFunction.insertIntent(mDB, intent);
-        }
+        BDebug.d("action = " , intent.getAction());
 
         // 如果是点击广播，尝试启动App
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
@@ -59,9 +45,10 @@ public class TransitReceiver extends BroadcastReceiver {
                 // boolean result =
                 // SharedPreferencesUtil.saveIntent(context.getApplicationContext(),
                 // intent);// 将Intent放在SharedPreferences中
-                // MLog.getIns().d("将Intent放在SharedPreferences的结果 = " + result);
+                // BDebug.d("将Intent放在SharedPreferences的结果 = " + result);
             }
         }
+        BDebug.d("转发Intent");
 
         /**
          * 转发广播
@@ -79,20 +66,7 @@ public class TransitReceiver extends BroadcastReceiver {
 
     }
 
-    /**
-     * 初始化数据库
-     *
-     * @param context
-     */
-    private void initDB(Context context) {
 
-        MLog.getIns().d("start");
-
-        if (mDBHelper == null) {
-            mDBHelper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
-        }
-        mDB = mDBHelper.getWritableDatabase();
-    }
 
     /**
      * 判断App是否在前台
@@ -137,8 +111,9 @@ public class TransitReceiver extends BroadcastReceiver {
                 context.startActivity(intent);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            MLog.getIns().e(e);
+            if (BDebug.DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
