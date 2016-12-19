@@ -4,7 +4,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.data.JPushLocalNotification;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +24,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.data.JPushLocalNotification;
 
 public class EUExJPush extends EUExBase implements CallBack {
 
@@ -84,7 +82,9 @@ public class EUExJPush extends EUExBase implements CallBack {
                     intent.setAction(MyReceiver.BROADCAST_DELETE_ALL_INTENTS_IN_DB);
                     intent.addCategory(MyReceiver.CATEGORY);
                     contextFinal.sendBroadcast(intent);
-                };
+                }
+
+                ;
             }.start();
         }
 
@@ -112,7 +112,6 @@ public class EUExJPush extends EUExBase implements CallBack {
     public void resumePush(String[] params) {
         JPushInterface.resumePush(mContext.getApplicationContext());
     }
-
 
 
     public void isPushStopped(String[] params) {
@@ -170,7 +169,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false, i,new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -213,7 +212,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false,i, new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -261,7 +260,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                 String result = DataHelper.gson.toJson(resultVO);
                 if (funcId != null) {
                     try {
-                        callbackToJs(Integer.parseInt(funcId), false,i, new JSONObject(result));
+                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -323,7 +322,6 @@ public class EUExJPush extends EUExBase implements CallBack {
             e.printStackTrace();
         }
     }
-
 
 
     public void setPushTime(String[] params) {
@@ -401,7 +399,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             jsonObject.put("result", result);
             String data = jsonObject.toString();
             if (null != funcId) {
-                callbackToJs(Integer.parseInt(funcId), false,0, result);
+                callbackToJs(Integer.parseInt(funcId), false, 0, result);
             } else {
                 String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_GETCONNECTIONSTATE + "){" + JsConst.CALLBACK_GETCONNECTIONSTATE + "('" + data + "');}";
                 evaluateRootWindowScript(js);
