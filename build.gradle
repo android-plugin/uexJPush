@@ -29,7 +29,7 @@ android {
     defaultConfig {
         // 应用的包名
         applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
-        multiDexEnabled true
+        multiDexEnabled false
         targetSdkVersion 14
     }
 
