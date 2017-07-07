@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="3.0.14" build="14">
-        <info>14:修复了缺少配置GET_TASKS权限导致的部分机型程序崩溃问题
+    <plugin uexName="uexJPush" version="3.0.15" build="15">
+        <info>15:逻辑和4.0统一,升级JPushSDK至3.0.6</info>
+        <build>14:修复了缺少配置GET_TASKS权限导致的部分机型程序崩溃问题
               14.1:修复了数据库推送不自动清空的问题
-              14.2:升级SDK支持64位uid</info>
+              14.2:升级SDK支持64位uid</build>
         <build>13:优化了当应用程序正常退出后，依然可以收到推送(所有机型);
                13.1:注:当用户手动清理内存(杀进程)后,收不到推送是正常现象;若想杀进程后依然收到推送,须手动将App配置进系统白名单</build>
         <build>12.1:修复了Manifest文件书写错误导致的应用崩溃的问题
