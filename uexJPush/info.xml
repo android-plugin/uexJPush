@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.0.3" build="2017092701">
-        <info>3.监听方法没有回调给root页面</info>
+    <plugin uexName="uexJPush" version="4.0.4" build="2018060401">
+        <info>4.升级JPushSDK至3.1.3</info>
+        <build>3.监听方法没有回调给root页面</build>
         <build>2.升级JPushSDK至3.0.6</build>
         <build>1.修复onReceiveNotificationOpen回调两次的问题</build>
         <build>0.支持function参数传入</build>
