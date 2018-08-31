@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.0.4" build="2018060401">
-        <info>4.升级JPushSDK至3.1.3</info>
+    <plugin uexName="uexJPush" version="4.0.6.4" build="2018060403">
+        <info>6.修改华为和小米推送的问题</info>
+        <build>5.升级JPushSDK至3.1.5,集成小米华为魅族多通道推送平台</build>
+        <build>4.升级JPushSDK至3.1.3</build>
         <build>3.监听方法没有回调给root页面</build>
         <build>2.升级JPushSDK至3.0.6</build>
         <build>1.修复onReceiveNotificationOpen回调两次的问题</build>
