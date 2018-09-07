@@ -19,7 +19,9 @@ repositories {
 }
 dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')
-    compile(name: "HMSSdk-agent", ext: 'aar')
+    compile(name: "HMSSdk-base-2.6.0.301", ext: 'aar')
+    compile(name: "HMSSdk-push-2.6.0.301", ext: 'aar')
+    compile(name: "push-internal-3.3.170426-20170427.081757-1", ext: 'aar')
     compile 'org.appcan:engine:+:systemRelease@aar'
 }
 
