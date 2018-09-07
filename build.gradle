@@ -18,26 +18,38 @@ repositories {
     }
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-//    compile(name: "Engine-system-release-4.0.0", ext: 'aar')
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile(name: "HMSSdk-agent", ext: 'aar')
     compile 'org.appcan:engine:+:systemRelease@aar'
 }
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'widgetone.keystore'
+            keyPassword '123456'
+            storeFile file('C:/Users/zhang/Desktop/widgetone.keystore')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
     defaultConfig {
         // 应用的包名
-        applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
+        applicationId "org.zywx.wbpalmstar.widgetone.uexEPortal"
         multiDexEnabled true
         targetSdkVersion 14
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -47,7 +59,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jniLibs.srcDirs=['libs']
+            jniLibs.srcDirs = ['libs']
         }
 
         // Move the tests to tests/java, tests/res, etc...
@@ -62,7 +74,12 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+    }
 }
-apply from: "https://raw.githubusercontent.com/android-plugin/gradle-plugin/master/buildPlugin.gradle"
+apply from: "buildPlugin.gradle"
 

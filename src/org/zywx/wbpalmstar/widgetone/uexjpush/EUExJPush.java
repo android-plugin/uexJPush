@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.data.JPushLocalNotification;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +24,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.data.JPushLocalNotification;
 
 public class EUExJPush extends EUExBase implements CallBack {
 
@@ -44,7 +47,9 @@ public class EUExJPush extends EUExBase implements CallBack {
     }
 
     public static void onApplicationCreate(Context context) {
-
+        // 初始化极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(context.getApplicationContext());
     }
 
     /**
@@ -55,7 +60,7 @@ public class EUExJPush extends EUExBase implements CallBack {
     public static void onActivityResume(Context context) {
 
         // 初始化极光推送
-        JPushInterface.init(context.getApplicationContext());
+//        JPushInterface.init(context.getApplicationContext());
 
         // 数据库操作
         if (MyReceiver.callBack != null) {
@@ -485,6 +490,7 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
+        Log.e("TAG", "onReceiveNotificationOpen======================0000000000000000");
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
         evaluateRootWindowScript(js);
     }

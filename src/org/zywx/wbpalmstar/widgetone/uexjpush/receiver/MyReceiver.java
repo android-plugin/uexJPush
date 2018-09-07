@@ -11,7 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import cn.jpush.android.api.JPushInterface;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.base.BDebug;
@@ -21,7 +21,8 @@ import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 
 import java.util.List;
-import java.util.Objects;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MyReceiver extends BroadcastReceiver {
 
@@ -131,7 +132,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 用户点击了通知
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-
+            Log.e("TAG", "cn.jpush.android.intent.NOTIFICATION_OPENED===============11111111111111111111");
             callbackNotificationOpen(bundle);
         }
 
@@ -151,6 +152,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 接收网络变化 连接/断开 since 1.6.3
 		 */
         else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
+            Log.e("TAG", "cn.jpush.android.intent.CONNECTION===============222222222222222222222");
 
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             BDebug.i("action = " + intent.getAction() + " connected state change to " + connected);
