@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -490,9 +489,13 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
-        Log.e("TAG", "onReceiveNotificationOpen======================0000000000000000");
-        String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
-        evaluateRootWindowScript(js);
+        final String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                evaluateRootWindowScript(js);
+            }
+        },1500);
     }
 
     @Override
