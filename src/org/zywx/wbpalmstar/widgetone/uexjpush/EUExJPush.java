@@ -495,7 +495,7 @@ public class EUExJPush extends EUExBase implements CallBack {
             public void run() {
                 evaluateRootWindowScript(js);
             }
-        },1500);
+        },2000);
     }
 
     @Override
