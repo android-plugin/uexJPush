@@ -20,7 +20,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 //    compile(name: "Engine-system-release-4.0.0", ext: 'aar')
-    compile 'org.appcan:engine:+:systemRelease@aar'
+//    compile 'org.appcan:engine:+:systemRelease@aar'
+    compile(name: 'Engine-system-release', ext: 'aar')
 }
 
 android {
@@ -30,7 +31,8 @@ android {
         // 应用的包名
         applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
         multiDexEnabled true
-        targetSdkVersion 14
+        minSdkVersion 14
+        targetSdkVersion 26
     }
 
     packagingOptions {
