@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -489,13 +490,14 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
+        Log.e("AppCan:", "[AppCan]MyReceiver点击用户自定义处理广播onReceiveNotificationOpen："+jsonData);
         final String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 evaluateRootWindowScript(js);
             }
-        },2000);
+        },2800);
     }
 
     @Override

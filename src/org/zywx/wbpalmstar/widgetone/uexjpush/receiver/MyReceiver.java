@@ -37,14 +37,14 @@ public class MyReceiver extends BroadcastReceiver {
     public static Intent offlineIntent = null;
 
     // 能收到的Intent必须含有该category
-    public static final String CATEGORY = "org.zywx.wbpalmstar.widgetone.uexjpush.transit";
+    public static final String CATEGORY = "org.zywx.wbpalmstar.widgetone.uexSZPortal";
 
     // 删除数据库中的所有Intent广播
     public static final String BROADCAST_DELETE_ALL_INTENTS_IN_DB = "org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        Log.e("AppCan:", "[AppCan]MyReceiver广播接受到消息A抽屉con："+intent.getAction());
         String action = intent.getAction();
         BDebug.d("action = " + action);
         if (callBack == null) {
@@ -84,7 +84,7 @@ public class MyReceiver extends BroadcastReceiver {
      * @param intent
      */
     public static void handleIntent(Context context, Intent intent) {
-
+        Log.e("AppCan:", "[AppCan]MyReceiver处理接受到Action====handleIntent："+intent.getAction());
         if (callBack == null) {
             BDebug.e("callBack == null");
             return;
@@ -96,7 +96,7 @@ public class MyReceiver extends BroadcastReceiver {
          * SDK 向 JPush Server 注册所得到的注册 ID
 		 */
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]MyReceiver处理接受到Actiont："+intent.getAction());
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             BDebug.i("接收Registration Id : " + regId);
 
@@ -114,7 +114,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 收到了自定义消息 Push
 		 */
         else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]MyReceiver收到了自定义消息 PushActiont："+intent.getAction());
             BDebug.i("接收到推送下来的自定义消息");
 
             callbackMessage(bundle);
@@ -124,7 +124,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 收到了通知 Push
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]MyReceiver收到了通知 Push PushActiont："+intent.getAction());
             callbackNotification(bundle);
         }
 
@@ -132,7 +132,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 用户点击了通知
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.e("TAG", "cn.jpush.android.intent.NOTIFICATION_OPENED===============11111111111111111111");
+            Log.e("AppCan:", "[AppCan]MyReceiver用户点击了通知 Push Action ："+intent.getAction());
             callbackNotificationOpen(bundle);
         }
 
@@ -140,7 +140,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 用户接受Rich Push Javascript 回调函数的intent
 		 */
         else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]MyReceiver用户接受Rich Push Javascript 回调函数的intent Push Action ："+intent.getAction());
             BDebug.i("用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
 
             // 在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity，
@@ -152,7 +152,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 接收网络变化 连接/断开 since 1.6.3
 		 */
         else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
-            Log.e("TAG", "cn.jpush.android.intent.CONNECTION===============222222222222222222222");
+            Log.e("AppCan:", "[AppCan]MyReceiver接收网络变化 连接/断开 Push Action ："+intent.getAction());
 
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             BDebug.i("action = " + intent.getAction() + " connected state change to " + connected);
@@ -171,7 +171,7 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 删除DB中所有Intent的广播
 		 */
         else if ( BROADCAST_DELETE_ALL_INTENTS_IN_DB.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]MyReceiver 删除DB中所有Intent的广播：");
             DBHelper helper = new DBHelper(context, DBConstant.DB_NAME, null, 1);
             SQLiteDatabase db = helper.getWritableDatabase();
             DBFunction.deleteAllIntents(db);
@@ -181,6 +181,8 @@ public class MyReceiver extends BroadcastReceiver {
 		 * 未处理到的Intent
 		 */
         else {
+            Log.e("AppCan:", "[AppCan]MyReceiver 未处理到的Intent：");
+
             BDebug.d("Unhandled intent - " + intent.getAction());
         }
     }
@@ -233,6 +235,7 @@ public class MyReceiver extends BroadcastReceiver {
     }
 
     private static void callbackNotificationOpen(Bundle bundle) {
+
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         String content = bundle.getString(JPushInterface.EXTRA_ALERT);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -252,6 +255,7 @@ public class MyReceiver extends BroadcastReceiver {
         }
         put(jsonObject, "notificationId", notificationId);
         put(jsonObject, "msgId", msgId);
+        Log.e("AppCan:", "[AppCan]MyReceiver点击用户自定义处理广播");
         callBack.onReceiveNotificationOpen(jsonObject.toString());
     }
 
