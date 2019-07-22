@@ -1,11 +1,11 @@
 package org.zywx.wbpalmstar.widgetone.uexjpush;
 
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,6 +79,8 @@ public class EUExJPush extends EUExBase implements CallBack {
                     }
                     for (int i = 0; i < intentsIdList.size(); i++) {
                         Intent intent = DBFunction.getIntentById(db, intentsIdList.get(i));// 从数据库中获得Intent
+                        intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
+
                         contextFinal.sendBroadcast(intent);// 发送广播
                     }
                     // 发送删除DB中所有Intent的广播
@@ -86,6 +88,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                     Intent intent = new Intent();
                     intent.setAction(MyReceiver.BROADCAST_DELETE_ALL_INTENTS_IN_DB);
                     intent.addCategory(MyReceiver.CATEGORY);
+                    intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
                     contextFinal.sendBroadcast(intent);
                 }
             },500);//延时是为了能显示alert对话框
@@ -490,7 +493,7 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
-        Log.e("AppCan:", "[AppCan]MyReceiver点击用户自定义处理广播onReceiveNotificationOpen："+jsonData);
+        BDebug.e("AppCan:", "[AppCan]MyReceiver点击用户自定义处理广播onReceiveNotificationOpen："+jsonData);
         final String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
         new Handler().postDelayed(new Runnable() {
             @Override
