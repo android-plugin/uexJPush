@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.1.2.1" build="201901191234">
+    <plugin uexName="uexJPush" version="4.4.1" build="201901191234">
+        <info>12.更新极光推送SDK3.3.6;</info>
         <build>12.更新极光推送SDK3.1.8;修改8.0隐式广播导致的收到广播消息，以及去掉中转广播</build>
         <build>11.修改接收回调延迟时间为3s</build>
         <build>7.修改SDk为3.1.3</build>
