@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- uexJPush -->
     <!-- Required -->
@@ -278,10 +278,48 @@
         </intent-filter>
     </receiver>
 
+
+    <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
+    <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
+    <service android:name="cn.jpush.android.service.JCommonService"
+        android:enabled="true"
+        android:exported="false"
+        android:process=":pushcore">
+        <intent-filter>
+            <action android:name="cn.jiguang.user.service.action" />
+        </intent-filter>
+    </service>
+
+
+    <receiver
+        android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.PushMessageReceiver"
+        android:enabled="true"
+        android:exported="false" >
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+            <category android:name="$UEXJPUSH_PACKAGE$" />
+        </intent-filter>
+    </receiver>
     <!-- Required SDK核心功能 -->
     <!-- Required SDK核心功能-->
     <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
 
+    <receiver android:name="com.example.jpushdemo.PushMessageReceiver">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+            <category android:name="$UEXJPUSH_PACKAGE$"></category>
+        </intent-filter>
+    </receiver>
+    <activity
+        android:name="cn.jpush.android.service.JNotifyActivity"
+        android:exported="true"
+        android:taskAffinity="jpush.custom"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+            <category android:name="$UEXJPUSH_PACKAGE$" />
+        </intent-filter>
+    </activity>
     <!-- 中转广播接收器，在uexjpush进程里 -->
     <!-- 用来在App被退出后，继续接收极光推送广播，并在被点击时唤醒App -->
     <receiver
