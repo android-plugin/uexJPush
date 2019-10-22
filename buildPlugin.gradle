@@ -1,0 +1,134 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.2'
+    }
+}
+
+//-----------------------------------以下为生成插件Zip包部分---------------------------------
+
+def pluginName = getPluginName()
+def projectDir=project.getProjectDir().absolutePath
+def jarDir = pluginName + '/jar/'
+def jarName = "plugin_" + pluginName + ".jar"
+def jarPath = jarDir + jarName
+
+task clearJar(type: Delete) {
+    delete jarPath;
+}
+
+task buildPlugin(type: Jar, dependsOn: ['compileReleaseJavaWithJavac']) {
+    def applicationId = getApplicationId();
+    archiveName jarName
+    from('build/intermediates/classes/release/')
+    destinationDir = file(jarDir)
+    exclude('**/R.class')
+    exclude('**/R\$*.class')
+    exclude('**/BuildConfig.class')
+}
+
+buildPlugin.dependsOn(clearJar)
+
+//获取应用Id
+def getApplicationId() {
+    return getAndroidPlugin().extension.defaultConfig.applicationId;
+}
+
+def getAndroidPlugin(){
+    def plugin = project.plugins.findPlugin('com.android.application') ?:
+            project.plugins.findPlugin('com.android.library')
+    return plugin
+}
+
+//获取插件版本号
+def getPluginVersion(String pluginName) {
+    def version = ''
+    Pattern p = Pattern.compile("version=\"(.*?)\"")
+    Matcher m = p.matcher(new File(project.getProjectDir(), pluginName + "/info.xml")
+            .getText('UTF-8'))
+    m.find()
+    if (m.find()) {
+        version = m.group(1)
+        println(pluginName + " version: " + version)
+    }
+    return version
+}
+
+def getPluginName(){
+    def pluginName = ''
+    Pattern p = Pattern.compile("uexName=\"(.*?)\"")
+    File infoFile=getInfoFile()
+    Matcher m = p.matcher(infoFile.getText('UTF-8'))
+    if (m.find()) {
+        pluginName = m.group(1)
+        println("pluginName: " + pluginName)
+    }
+    return pluginName
+}
+
+def getInfoFile(){
+    File infoFile
+    project.getProjectDir().listFiles().each { file->
+        if (file.isDirectory()){
+            File[] files=file.listFiles(new FileFilter() {
+                @Override
+                boolean accept(File pathname) {
+                    return pathname.getName().equals("info.xml")
+                }
+            })
+            if (files!=null&&files.length>0){
+                infoFile=files[0]
+            }
+        }
+    }
+    println("info file:"+infoFile.absolutePath)
+    return infoFile
+}
+
+buildPlugin.doLast{
+    def argsList =["--dex","--verbose","--no-strict","--output=$projectDir/$pluginName/dex/plugin_${pluginName}_dex.jar"]
+    new File(projectDir,"$pluginName/jar").listFiles().each { file ->
+        argsList.add(file.absolutePath)
+        println(file.absolutePath)
+    }
+    println(argsList)
+    def dexJarTask=tasks.create("buildPluginTemp",Exec){
+        workingDir "./$pluginName"
+        def androidSDKDir = project.android.sdkDirectory.absolutePath
+        def androidToolDir=androidSDKDir+'/build-tools/'+"${android.buildToolsVersion}"+'/'
+        if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+            commandLine androidToolDir+"dx.bat"
+        } else {
+            commandLine androidToolDir+"dx"
+        }
+        args argsList
+        standardOutput = new ByteArrayOutputStream()
+    }
+    dexJarTask.doFirst{
+        println '== dexJars start=='
+        File dexDir=new File(projectDir,"$pluginName/dex")
+        if (!dexDir.exists()){
+            dexDir.mkdir()
+        }
+    }
+    dexJarTask.doLast{
+        println standardOutput
+        println '== dexJars  end=='
+        def zipTask=tasks.findByName("zipPlugin")
+        zipTask.execute()
+    }
+    dexJarTask.execute()
+}
+
+//生成插件包
+task zipPlugin(type: Zip) {
+    baseName pluginName + "-android-" + getPluginVersion(pluginName)
+    from(pluginName)
+    into(pluginName)
+    destinationDir = file('.');
+}

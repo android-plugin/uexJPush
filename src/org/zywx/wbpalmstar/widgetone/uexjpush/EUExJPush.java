@@ -1,13 +1,12 @@
 package org.zywx.wbpalmstar.widgetone.uexjpush;
 
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
-import cn.jpush.android.data.JPushLocalNotification;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +24,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+import cn.jpush.android.data.JPushLocalNotification;
 
 public class EUExJPush extends EUExBase implements CallBack {
 
@@ -44,7 +47,9 @@ public class EUExJPush extends EUExBase implements CallBack {
     }
 
     public static void onApplicationCreate(Context context) {
-
+        // 初始化极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(context.getApplicationContext());
     }
 
     /**
@@ -55,7 +60,7 @@ public class EUExJPush extends EUExBase implements CallBack {
     public static void onActivityResume(Context context) {
 
         // 初始化极光推送
-        JPushInterface.init(context.getApplicationContext());
+//        JPushInterface.init(context.getApplicationContext());
 
         // 数据库操作
         if (MyReceiver.callBack != null) {
@@ -74,6 +79,8 @@ public class EUExJPush extends EUExBase implements CallBack {
                     }
                     for (int i = 0; i < intentsIdList.size(); i++) {
                         Intent intent = DBFunction.getIntentById(db, intentsIdList.get(i));// 从数据库中获得Intent
+                        intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
+
                         contextFinal.sendBroadcast(intent);// 发送广播
                     }
                     // 发送删除DB中所有Intent的广播
@@ -81,6 +88,7 @@ public class EUExJPush extends EUExBase implements CallBack {
                     Intent intent = new Intent();
                     intent.setAction(MyReceiver.BROADCAST_DELETE_ALL_INTENTS_IN_DB);
                     intent.addCategory(MyReceiver.CATEGORY);
+                    intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
                     contextFinal.sendBroadcast(intent);
                 }
             },500);//延时是为了能显示alert对话框
@@ -485,8 +493,14 @@ public class EUExJPush extends EUExBase implements CallBack {
 
     @Override
     public void onReceiveNotificationOpen(String jsonData) {
-        String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
-        evaluateRootWindowScript(js);
+        BDebug.e("AppCan:", "[AppCan]MyReceiver点击用户自定义处理广播onReceiveNotificationOpen："+jsonData);
+        final String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVENOTIFICATIONOPEN + "){" + JsConst.ONRECEIVENOTIFICATIONOPEN + "('" + jsonData + "');}";
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                evaluateRootWindowScript(js);
+            }
+        },2800);
     }
 
     @Override

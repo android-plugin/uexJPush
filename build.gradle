@@ -21,7 +21,8 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
-    implementation 'org.appcan:engine:4.3.23'
+    implementation(name: "HMSSdk-agent", ext: 'aar')
+    implementation 'org.appcan:engine:4.4.24'
 }
 
 android {
@@ -32,12 +33,10 @@ android {
         minSdkVersion 18
         targetSdkVersion 28
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -47,7 +46,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jniLibs.srcDirs=['libs']
+            jniLibs.srcDirs = ['libs']
         }
 
         // Move the tests to tests/java, tests/res, etc...
@@ -62,7 +61,12 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+    }
 }
 
 apply from: "https://raw.githubusercontent.com/android-plugin/gradle-plugin/master/buildPlugin.gradle"

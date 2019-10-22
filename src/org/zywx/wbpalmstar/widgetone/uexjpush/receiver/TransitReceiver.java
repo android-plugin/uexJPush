@@ -8,14 +8,13 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.sqlite.SQLiteDatabase;
-import cn.jpush.android.api.JPushInterface;
+import android.util.Log;
+
 import org.zywx.wbpalmstar.base.BDebug;
-import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
-import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
-import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 中转Receiver
@@ -34,12 +33,12 @@ public class TransitReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         BDebug.d("action = " , intent.getAction());
-
+        Log.e("AppCan:", "[AppCan]TransitReceiver接受到onReceive"+intent.getAction());
         // 如果是点击广播，尝试启动App
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-
+            Log.e("AppCan:", "[AppCan]TransitReceiver接受到点击通知栏的消息："+intent.getAction());
             if (!isAppForground(context)) {// 如果App不在前台
-
+                Log.e("AppCan:", "[AppCan]TransitReceiver判断APP是否在前台："+intent.getAction());
                 runApp(context);// 启动App
 
                 // boolean result =
@@ -56,11 +55,12 @@ public class TransitReceiver extends BroadcastReceiver {
         // 因为如果重新发原来的Intent的话,不论action或者category改成什么，
         // 还是会被当前的广播接收器收到,这样就达不到转发Intent的效果了
         // 所以新建一个Intent,action和bundle使用原来的,换一个category,使当前广播接收器接收不到
+        Log.e("AppCan:", "[AppCan]TransitReceiver发送广播到MyReceiver："+intent.getAction());
         Intent intent2 = new Intent();
         intent2.setAction(intent.getAction());
         intent2.putExtras(intent.getExtras());
         intent2.addCategory(MyReceiver.CATEGORY);
-
+        intent2.setComponent(new ComponentName(context.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
         // 发送新的广播
         context.sendBroadcast(intent2);
 
