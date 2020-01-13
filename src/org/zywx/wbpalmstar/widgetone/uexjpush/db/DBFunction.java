@@ -126,7 +126,7 @@ public class DBFunction {
 
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
-        intent.addCategory(MyReceiver.CATEGORY);
+//        intent.addCategory(MyReceiver.CATEGORY);
 
         // @formatter:off
         String querySQL = "select * from " + DBConstant.TABLE_NAME

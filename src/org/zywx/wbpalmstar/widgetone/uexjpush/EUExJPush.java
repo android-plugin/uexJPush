@@ -11,13 +11,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.base.BDebug;
+import org.zywx.wbpalmstar.base.util.ActivityActionRecorder;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.engine.universalex.EUExEventListener;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
+import org.zywx.wbpalmstar.widgetone.uexjpush.utils.SharedPreferencesUtil;
 import org.zywx.wbpalmstar.widgetone.uexjpush.vo.SetTagsResultVO;
 
 import java.util.ArrayList;
@@ -31,13 +34,29 @@ import cn.jpush.android.data.JPushLocalNotification;
 
 public class EUExJPush extends EUExBase implements CallBack {
 
+    private static final String TAG = "EUExJPush";
+    
     // 通知栏管理器
     private NotificationManager mNotificationManager;
 
     public EUExJPush(Context context, EBrowserView eBrowserView) {
         super(context, eBrowserView);
+        // plugin.xml中声明了单例插件（global="true"），则此插件入口类实例只会初始化一次。
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         MyReceiver.setCallBack(this);
+        registerAppEventListener(new EUExEventListener() {
+            @Override
+            public boolean onEvent(int event) {
+                if (event == F_UEX_EVENT_TYPE_APP_ON_RESUME){
+                    // 应用进入前台
+                    Intent intent = new Intent();
+                    intent.setAction(MyReceiver.BROADCAST_ON_APP_ENTER_FORGROUND);
+                    intent.setPackage(mContext.getPackageName());
+                    mContext.sendBroadcast(intent);
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -77,24 +96,45 @@ public class EUExJPush extends EUExBase implements CallBack {
                     if (intentsIdList.size() == 0) {// 如果数据库中没有intent
                         return;
                     }
+                    BDebug.d(TAG, "App未运行时，存在遗留未回调的数据，现在进行回调。");
                     for (int i = 0; i < intentsIdList.size(); i++) {
                         Intent intent = DBFunction.getIntentById(db, intentsIdList.get(i));// 从数据库中获得Intent
                         intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
-
+                        intent.setPackage(contextFinal.getPackageName());
                         contextFinal.sendBroadcast(intent);// 发送广播
                     }
                     // 发送删除DB中所有Intent的广播
                     // 至于为什么不用handler，因为这里不能直接使用mHandler，传进来又太麻烦，所以直接发广播好了
                     Intent intent = new Intent();
                     intent.setAction(MyReceiver.BROADCAST_DELETE_ALL_INTENTS_IN_DB);
-                    intent.addCategory(MyReceiver.CATEGORY);
+//                    intent.addCategory(MyReceiver.CATEGORY);
                     intent.setComponent(new ComponentName(contextFinal.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
+                    intent.setPackage(contextFinal.getPackageName());
                     contextFinal.sendBroadcast(intent);
                 }
             },500);//延时是为了能显示alert对话框
 
         }
 
+    }
+
+    /**
+     * 配置项。例如：是否启用自动角标功能
+     *
+     * @param params
+     */
+    public void setConfig(String[] params) {
+        if (params.length < 1){
+            return;
+        }
+        String jsonStr = params[0];
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            boolean isEnbaleBadge = json.optBoolean("isEnableBadge", false);
+            SharedPreferencesUtil.saveBadgerConfig(mContext, isEnbaleBadge);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

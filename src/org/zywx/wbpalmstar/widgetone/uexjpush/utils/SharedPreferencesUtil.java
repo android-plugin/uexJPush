@@ -24,6 +24,40 @@ public class SharedPreferencesUtil {
 
     public static final String SP_INTENT_ACTION = "action";
 
+    public static final String SP_CONFIG = "config";
+
+    public static final String SP_CONFIG_KEY_BADGE_ENABLE = "badgeEnable";
+
+    public static final String SP_CONFIG_KEY_BADGE_NUM = "badgeNum";
+
+    public static void saveBadgerConfig(Context context, boolean isEnable){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(SP_CONFIG_KEY_BADGE_ENABLE, isEnable);
+        editor.apply();
+    }
+
+    public static boolean getBadgerEnable(Context context){
+        SharedPreferences sp = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(SP_CONFIG_KEY_BADGE_ENABLE, false);
+    }
+
+    public static void saveBadgerNum(Context context, int badgeNum){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
+        editor.putInt(SP_CONFIG_KEY_BADGE_NUM, badgeNum);
+        editor.commit();
+    }
+
+    public static void clearBadgerNum(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
+        editor.putInt(SP_CONFIG_KEY_BADGE_NUM, 0);
+        editor.commit();
+    }
+
+    public static int getBadgerNum(Context context){
+        SharedPreferences sp = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE);
+        return sp.getInt(SP_CONFIG_KEY_BADGE_NUM, 0);
+    }
+
     /**
      * 将Intent存入SharedPreferences中
      *
@@ -123,7 +157,7 @@ public class SharedPreferencesUtil {
         Bundle bundle = new Bundle();
         Intent intent = new Intent();
         intent.setAction(action);
-        intent.addCategory(MyReceiver.CATEGORY);
+//        intent.addCategory(MyReceiver.CATEGORY);
 
         // SDK 向 JPush Server 注册所得到的注册 ID
         if (action.equals(JPushInterface.ACTION_REGISTRATION_ID)) {
