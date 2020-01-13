@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+    <plugin uexName="uexJPushSupport" version="4.4.0" build="2020011301">
+        <info>0.uexJPush极光推送插件搭配使用的支持依赖库（极光SDK版本3.3.6），包括华为小米等厂商推送SDK等</info>
+    </plugin>
+</uexplugins>
