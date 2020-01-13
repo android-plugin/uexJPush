@@ -5,8 +5,6 @@
     android:versionCode="300"
     android:versionName="3.0" >
 
-    <uses-sdk android:minSdkVersion="14" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -45,9 +43,11 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+<!--    华为角标权限-->
+    <uses-permission
+        android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
 
     <!-- 小米推送相关配置-->
-
 
     <permission
         android:name="${applicationId}.permission.MIPUSH_RECEIVE"
@@ -135,11 +135,6 @@
         <!-- Required  SDK核心功能 -->
         <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
         <!-- 如：android:process=":remote" -->
-        <service
-            android:name="cn.jpush.android.service.DownloadService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":uexjpush"></service>
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -177,6 +172,16 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.PushMessageReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
 
         <!-- Required SDK核心功能 -->
         <!--android:process=":uexjpush"-->
@@ -261,11 +266,25 @@
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 自定义，删除DB中所有的Intent -->
                 <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB" />
+                <!-- 自定义，App进入前台 -->
+                <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_ON_APP_ENTER_FORGROUND" />
 
                 <!-- 接收中转Receiver转发后的Intent -->
-                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />
+<!--                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />-->
             </intent-filter>
         </receiver>
+
+        <!--Required SDK核心功能 since 3.3.0-->
+        <activity
+            android:name="cn.jpush.android.service.JNotifyActivity"
+            android:exported="true"
+            android:taskAffinity="jpush.custom"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
@@ -275,7 +294,7 @@
         <!-- </>值来自开发者平台取得的AppKey -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="a33e2dcee0dbe20a1c828b98" />
+            android:value="b24baae16b184688abcd6b24" />
 
 
         <!-- 小米推送相关配置-->
@@ -402,6 +421,16 @@
             android:name="MEIZU_APPID"
             android:value="MZ-110443" />
 
+<!--        角标插件测试-->
+        <receiver
+            android:name="org.zywx.wbpalmstar.plugin.uexshortcutBadger.BadgePushReserver" android:exported="false">
+            <intent-filter>
+                <action android:name="org.zywx.push.receive" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.zywx.badge.changed" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
