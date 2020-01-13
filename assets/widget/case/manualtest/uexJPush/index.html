@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
     <script type="text/javascript">
-
+        var isBadgeEnable = false;
 
         function setAliasAndTags() {
             var tags = new Array("tag4", "tag5", "tag6");
@@ -97,8 +97,13 @@
 
             uexJPush.clearLocalNotifications();
         }
-        function setBadgeNumber() {
-            uexJPush.setBadgeNumber(5);
+        function setBadgeEnable() {
+            isBadgeEnable = !isBadgeEnable;
+            var config = {
+                "isEnableBadge":isBadgeEnable
+            };
+            alert(JSON.stringify(config));
+            uexJPush.setConfig(JSON.stringify(config));
 
         }
         function disableLocalNotificationAlertView() {
@@ -164,7 +169,7 @@
 
         <input class='btn' type='button' value='clearLocalNotifications' onclick='clearLocalNotifications()'>
 
-        <input class='btn' type='button' value='setBadgeNumber' onclick='setBadgeNumber()'>
+        <input class='btn' type='button' value='setBadgeEnable' onclick='setBadgeEnable()'>
         <input class='btn' type='button' value='disableLocalNotificationAlertView'
                onclick='disableLocalNotificationAlertView()'>
     </div>
