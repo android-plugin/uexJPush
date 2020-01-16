@@ -136,7 +136,7 @@
             <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
             <action android:name="com.meizu.c2dm.intent.RECEIVE" />
 
-            <category android:name="org.zywx.wbpalmstar.widgetone"></category>
+            <category android:name="$UEXJPUSH_PACKAGE$"></category>
         </intent-filter>
     </receiver>
 
