@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.4.6.4" build="201901191234">
-        <info>13.更新极光推送SDK3.3.6,并更新小米和华为渠道SDK</info>
+    <plugin uexName="uexJPush" version="4.4.8.2" build="2020011304">
+        <info>4.4.8.移除厂商推送的相关依赖，依赖会以其他插件的形式集成进来，作为可选项。</info>
+        <build>4.4.7.增加自动管理角标的功能，此功能需要与uexShortcutBadger插件搭配使用</build>
+        <build>13.更新极光推送SDK3.3.6,并更新小米和华为渠道SDK</build>
         <build>12.更新极光推送SDK3.1.8;修改8.0隐式广播导致的收到广播消息，以及去掉中转广播</build>
         <build>11.修改接收回调延迟时间为3s</build>
         <build>7.修改SDk为3.1.3</build>

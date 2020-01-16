@@ -59,7 +59,7 @@ public class TransitReceiver extends BroadcastReceiver {
         Intent intent2 = new Intent();
         intent2.setAction(intent.getAction());
         intent2.putExtras(intent.getExtras());
-        intent2.addCategory(MyReceiver.CATEGORY);
+//        intent2.addCategory(MyReceiver.CATEGORY);
         intent2.setComponent(new ComponentName(context.getPackageName(),"org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver"));
         // 发送新的广播
         context.sendBroadcast(intent2);

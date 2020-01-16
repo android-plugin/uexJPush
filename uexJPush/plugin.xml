@@ -4,6 +4,7 @@
         className="org.zywx.wbpalmstar.widgetone.uexjpush.EUExJPush"
         uexName="uexJPush"
         global="true">
+            <method name="setConfig" />
             <method name="stopPush" />
             <method name="resumePush" />
             <method name="isPushStopped"/>
