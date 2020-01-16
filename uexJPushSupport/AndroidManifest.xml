@@ -25,6 +25,10 @@
     <uses-permission android:name="$UEXJPUSH_PACKAGE$.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
 
+    <!--OPPO推送权限-->
+    <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+    <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+
     <!-- 小米推送相关配置-->
     <service
         android:name="com.xiaomi.push.service.XMJobService"
@@ -147,4 +151,29 @@
         android:name="MEIZU_APPID"
         android:value="$UEXMEIZU_APPID$"/>
 
+    <!-- OPPO推送JPush支持-->
+    <service android:name="cn.jpush.android.service.PluginOppoPushService"
+        android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE">
+        <intent-filter>
+            <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE" />
+        </intent-filter>
+    </service>
+
+    <!-- since 3.4.0 oppo 核心功能-->
+    <service
+        android:name="com.heytap.mcssdk.AppPushService"
+        android:permission="com.heytap.mcs.permission.SEND_MCS_MESSAGE">
+        <intent-filter>
+            <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE"/>
+        </intent-filter>
+    </service>
+
+    <meta-data android:name="OPPO_APPKEY"
+        android:value="$UEXOPPO_APPKEY$" />
+
+    <meta-data android:name="OPPO_APPID"
+        android:value="$UEXOPPO_APPID$" />
+
+    <meta-data android:name="OPPO_APPSECRET"
+        android:value="$UEXOPPO_APPSECRET$" />
 </manifest>
