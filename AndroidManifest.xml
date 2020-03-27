@@ -184,6 +184,19 @@
         <!-- 3.5.0新增，用于定时展示功能 -->
         <receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
 
+        <!--since 3.3.0 Required SDK核心功能-->
+        <activity
+            android:name="cn.jpush.android.service.JNotifyActivity"
+            android:exported="false"
+            android:taskAffinity="jpush.custom"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+                <category android:name="$UEXJPUSH_PACKAGE$" />
+            </intent-filter>
+        </activity>
+
+        <!-- JPushSDK 用户自定义部分 -->
         <receiver
             android:name="org.zywx.wbpalmstar.widgetone.uexjpush.receiver.PushMessageReceiver"
             android:enabled="true"
