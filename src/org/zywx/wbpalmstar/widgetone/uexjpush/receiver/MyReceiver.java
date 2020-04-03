@@ -46,6 +46,8 @@ public class MyReceiver extends BroadcastReceiver {
     public static final String BROADCAST_DELETE_ALL_INTENTS_IN_DB = "org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB";
     // 应用进入前台的事件通知
     public static final String BROADCAST_ON_APP_ENTER_FORGROUND = "org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_ON_APP_ENTER_FORGROUND";
+    // 用户点击了厂商推送的通知
+    public static final String BROADCAST_ON_USER_CLICK_THIRD_PUSH_NOTIFICATION = "org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_ON_USER_CLICK_THIRD_PUSH_NOTIFICATION";
     // 角标插件交互action
     public final static String ACTION_BADGE_CHANGE = "org.zywx.badge.changed";
     // 角标数目Intent key
@@ -151,6 +153,16 @@ public class MyReceiver extends BroadcastReceiver {
 		 */
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             BDebug.i(TAG, "[AppCan]MyReceiver用户点击了通知 Push Action ："+intent.getAction());
+            // 清空角标
+            clearBadgeNum(context);
+            callbackNotificationOpen(bundle);
+        }
+
+        /*
+         * 用户点击厂商推送的通知
+         */
+        else if (BROADCAST_ON_USER_CLICK_THIRD_PUSH_NOTIFICATION.equals(intent.getAction())) {
+            BDebug.i(TAG, "[AppCan]MyReceiver用户点击厂商推送的通知 Push Action ："+intent.getAction());
             // 清空角标
             clearBadgeNum(context);
             callbackNotificationOpen(bundle);

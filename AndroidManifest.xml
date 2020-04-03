@@ -93,6 +93,7 @@
         </activity>
 
         <!-- uexJPush -->
+
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -260,6 +261,8 @@
                 <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_DELETE_INTENTS_IN_DB" />
                 <!-- 自定义，App进入前台 -->
                 <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_ON_APP_ENTER_FORGROUND" />
+                <!-- 自定义，接收到点击厂商推送通知的事件 -->
+                <action android:name="org.zywx.wbpalmstar.widgetone.uexjpush.BROADCAST_ON_USER_CLICK_THIRD_PUSH_NOTIFICATION" />
 
                 <!-- 接收中转Receiver转发后的Intent -->
 <!--                <category android:name="org.zywx.wbpalmstar.widgetone.uexjpush.transit" />-->
@@ -285,7 +288,7 @@
         <!-- </>值来自开发者平台取得的AppKey -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="b24baae16b184688abcd6b24" />
+            android:value="a33e2dcee0dbe20a1c828b98" />
 
 
         <!-- 小米推送相关配置-->
@@ -464,6 +467,17 @@
 
         <meta-data android:name="OPPO_APPSECRET"
             android:value="OP-您的应用对应的OPPO的APPSECRET" />
+
+        <!-- 自定义厂商推送接收Activity。厂商推送发送时需要配置此activity来接收点击通知的事件和消息内容。名称目前固定为本类，形成标准，其他项目集成时，服务端需要配置此类为接收参数。-->
+        <activity
+            android:name="org.zywx.wbpalmstar.widgetone.uexjpush.activity.PushNotificationLoadingActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
