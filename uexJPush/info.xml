@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.4.9" build="2020011601">
-        <info>4.4.9.更新极光推送SDK3.5.0-google-play版本</info>
+    <plugin uexName="uexJPush" version="4.4.10" build="2020040301">
+        <info>4.4.10.增加厂商推送的通知点击事件和回调处理</info>
+        <build>4.4.9.更新极光推送SDK3.5.0-google-play版本</build>
         <build>4.4.8.移除厂商推送的相关依赖，依赖会以其他插件的形式集成进来，作为可选项。</build>
         <build>4.4.7.增加自动管理角标的功能，此功能需要与uexShortcutBadger插件搭配使用</build>
         <build>13.更新极光推送SDK3.3.6,并更新小米和华为渠道SDK</build>
