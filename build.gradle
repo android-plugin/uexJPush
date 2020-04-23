@@ -37,6 +37,11 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+    lintOptions {
+        disable 'MissingTranslation'
+        disable 'GoogleAppIndexingWarning'
+        disable 'HardcodedDebugMode'
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
