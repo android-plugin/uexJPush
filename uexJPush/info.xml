@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.4.10" build="2020040301">
+    <plugin uexName="uexJPush" version="4.4.10" build="2020081801">
         <info>4.4.10.增加厂商推送的通知点击事件和回调处理</info>
         <build>4.4.9.更新极光推送SDK3.5.0-google-play版本</build>
         <build>4.4.8.移除厂商推送的相关依赖，依赖会以其他插件的形式集成进来，作为可选项。</build>
