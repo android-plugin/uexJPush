@@ -58,10 +58,8 @@
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
     <permission
         android:name="${applicationId}.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"></permission>
-
+        android:protectionLevel="signature"/>
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
 
     <!--OPPO推送权限-->
     <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
