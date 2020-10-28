@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBConstant;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBFunction;
 import org.zywx.wbpalmstar.widgetone.uexjpush.db.DBHelper;
 import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.MyReceiver;
+import org.zywx.wbpalmstar.widgetone.uexjpush.receiver.PushMessageReceiver;
 import org.zywx.wbpalmstar.widgetone.uexjpush.utils.SharedPreferencesUtil;
 import org.zywx.wbpalmstar.widgetone.uexjpush.vo.SetTagsResultVO;
 
@@ -44,6 +46,7 @@ public class EUExJPush extends EUExBase implements CallBack {
         // plugin.xml中声明了单例插件（global="true"），则此插件入口类实例只会初始化一次。
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         MyReceiver.setCallBack(this);
+        PushMessageReceiver.setCallback(this);
         registerAppEventListener(new EUExEventListener() {
             @Override
             public boolean onEvent(int event) {
@@ -197,31 +200,20 @@ public class EUExJPush extends EUExBase implements CallBack {
             str = params[1];
         }
         final String funcId = str;
-        JPushInterface.setAliasAndTags(mContext.getApplicationContext(), alias, JPushInterface.filterValidTags(tags), new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-
-                SetTagsResultVO resultVO = new SetTagsResultVO();
-                resultVO.setResult(String.valueOf(i));
-                resultVO.setAlias(s);
-                if (set != null) {
-                    List<String> tags = new ArrayList<String>();
-                    tags.addAll(set);
-                    resultVO.setTags(tags);
-                }
-                String result = DataHelper.gson.toJson(resultVO);
-                if (funcId != null) {
-                    try {
-                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIASANDTAGS + "){" + JsConst.CALLBACK_SETALIASANDTAGS + "('" + result + "');}";
-                    evaluateRootWindowScript(js);
-                }
+        int seq = -1; //抛了异常的话，默认值就是-1
+        try {
+            seq = Integer.parseInt(funcId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Set<String> validTags = JPushInterface.filterValidTags(tags);
+        if (validTags != null){
+            for (String tag : validTags){
+                BDebug.i(TAG, "after filterValidTags: " + tag);
             }
-        });
+        }
+        JPushInterface.setTags(mContext.getApplicationContext(), seq, validTags);
+        JPushInterface.setAlias(mContext.getApplicationContext(), seq, alias);
     }
 
     public void setAlias(String[] params) {
@@ -241,30 +233,13 @@ public class EUExJPush extends EUExBase implements CallBack {
             str = params[1];
         }
         final String funcId = str;
-        JPushInterface.setAlias(mContext.getApplicationContext(), alias, new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-                SetTagsResultVO resultVO = new SetTagsResultVO();
-                resultVO.setResult(String.valueOf(i));
-                resultVO.setAlias(s);
-                if (set != null) {
-                    List<String> tags = new ArrayList<String>();
-                    tags.addAll(set);
-                    resultVO.setTags(tags);
-                }
-                String result = DataHelper.gson.toJson(resultVO);
-                if (funcId != null) {
-                    try {
-                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){" + JsConst.CALLBACK_SETALIAS + "('" + result + "');}";
-                    evaluateRootWindowScript(js);
-                }
-            }
-        });
+        int seq = -1; //抛了异常的话，默认值就是-1
+        try {
+            seq = Integer.parseInt(funcId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JPushInterface.setAlias(mContext.getApplicationContext(), seq, alias);
     }
 
     public void setTags(String[] params) {
@@ -289,30 +264,19 @@ public class EUExJPush extends EUExBase implements CallBack {
             str = params[1];
         }
         final String funcId = str;
-        JPushInterface.setTags(mContext.getApplicationContext(), JPushInterface.filterValidTags(tags), new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-                SetTagsResultVO resultVO = new SetTagsResultVO();
-                resultVO.setResult(String.valueOf(i));
-                resultVO.setAlias(s);
-                if (set != null) {
-                    List<String> tags = new ArrayList<String>();
-                    tags.addAll(set);
-                    resultVO.setTags(tags);
-                }
-                String result = DataHelper.gson.toJson(resultVO);
-                if (funcId != null) {
-                    try {
-                        callbackToJs(Integer.parseInt(funcId), false, i, new JSONObject(result));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){" + JsConst.CALLBACK_SETTAGS + "('" + result + "');}";
-                    evaluateRootWindowScript(js);
-                }
+        int seq = -1; //抛了异常的话，默认值就是-1
+        try {
+            seq = Integer.parseInt(funcId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Set<String> validTags = JPushInterface.filterValidTags(tags);
+        if (validTags != null){
+            for (String tag : validTags){
+                BDebug.i(TAG, "after filterValidTags: " + tag);
             }
-        });
+        }
+        JPushInterface.setTags(mContext.getApplicationContext(), seq, validTags);
     }
 
     public String getRegistrationID(String[] params) {
@@ -547,6 +511,56 @@ public class EUExJPush extends EUExBase implements CallBack {
     public void onReceiveConnectionChange(String jsonData) {
         String js = SCRIPT_HEADER + "if(" + JsConst.ONRECEIVECONNECTIONCHANGE + "){" + JsConst.ONRECEIVECONNECTIONCHANGE + "('" + jsonData + "');}";
         evaluateRootWindowScript(js);
+    }
+
+    @Override
+    public void onReceiveAliasResult(int errorCode, int sequence, String alias, Set<String> tagSet) {
+        List<String> tagsList = new ArrayList<>();
+        if (tagSet != null && tagSet.size() > 0){
+            tagsList.addAll(tagSet);
+        }
+        SetTagsResultVO resultVO = new SetTagsResultVO();
+        resultVO.setResult(String.valueOf(errorCode));
+        resultVO.setAlias(alias);
+        resultVO.setTags(tagsList);
+        String result = DataHelper.gson.toJson(resultVO);
+        if (sequence >= 0) {
+            // 序列号id正常，是我们之前传入的有效callbackId，则执行callback
+            try {
+                callbackToJs(sequence, false, errorCode, new JSONObject(result));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 否则走老回调
+            String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETALIAS + "){" + JsConst.CALLBACK_SETALIAS + "('" + result + "');}";
+            evaluateRootWindowScript(js);
+        }
+    }
+
+    @Override
+    public void onReceiveTagResult(int errorCode, int sequence, String alias, Set<String> tagSet) {
+        List<String> tagsList = new ArrayList<>();
+        if (tagSet != null && tagSet.size() > 0){
+            tagsList.addAll(tagSet);
+        }
+        SetTagsResultVO resultVO = new SetTagsResultVO();
+        resultVO.setResult(String.valueOf(errorCode));
+        resultVO.setAlias(alias);
+        resultVO.setTags(tagsList);
+        String result = DataHelper.gson.toJson(resultVO);
+        if (sequence >= 0) {
+            // 序列号id正常，是我们之前传入的有效callbackId，则执行callback
+            try {
+                callbackToJs(sequence, false, errorCode, new JSONObject(result));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 否则走老回调
+            String js = SCRIPT_HEADER + "if(" + JsConst.CALLBACK_SETTAGS + "){" + JsConst.CALLBACK_SETTAGS + "('" + result + "');}";
+            evaluateRootWindowScript(js);
+        }
     }
 
     /**
