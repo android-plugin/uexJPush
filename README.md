@@ -2,8 +2,8 @@ API文档
 -------------------------------------------------------------
   * API - [https://github.com/AppCanOpenSource/appcan-docs](https://github.com/AppCanOpenSource/appcan-docs)
   *
-  #### Android
-  #### **附加 极光推送SDK中集成小米华为魅族OPPO等厂商推送，需要配置信息（在config.xml文件中）**
+#### Android
+#### **配置1： 极光推送SDK中集成小米华为魅族OPPO等厂商推送，需要配置信息（在config.xml文件中）**
 
 示例配置代码如下:
 
@@ -31,3 +31,17 @@ API文档
   </config>
 ```
 **只需修改value的值**即可完成相应key的配置,其中value值即可
+
+#### **配置2： 服务端发送极光推送消息时，需要增加自定义入口参数**
+
+不管是使用java还是node或者其他什么极光的服务端SDK，在对接时都会有个可以传入自定义入口类的参数，下面以node为例：
+
+```
+
+var androidObj = JPush.android(alert, title, 1, extras);
+        androidObj.android['uri_activity'] = 'org.zywx.wbpalmstar.widgetone.uexjpush.activity.PushNotificationLoadingActivity';
+        androidObj.android['uri_action'] = 'org.zywx.wbpalmstar.widgetone.uexjpush.activity.PushNotificationLoadingActivity';
+
+```
+
+重点在于，将uri_activity和uri_action两个参数都传入**org.zywx.wbpalmstar.widgetone.uexjpush.activity.PushNotificationLoadingActivity**，这个参数为uexJPush插件的接收厂商推送消息的入口类。
