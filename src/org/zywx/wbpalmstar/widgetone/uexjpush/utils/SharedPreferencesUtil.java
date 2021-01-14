@@ -20,11 +20,11 @@ import java.util.Iterator;
  */
 public class SharedPreferencesUtil {
 
-    public static final String SP_INTENT = "intent";
+    public static final String SP_INTENT = "uexjpush_intent";
 
     public static final String SP_INTENT_ACTION = "action";
 
-    public static final String SP_CONFIG = "config";
+    public static final String SP_CONFIG = "uexjpush_config";
 
     public static final String SP_CONFIG_KEY_BADGE_ENABLE = "badgeEnable";
 
@@ -44,13 +44,13 @@ public class SharedPreferencesUtil {
     public static void saveBadgerNum(Context context, int badgeNum){
         SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
         editor.putInt(SP_CONFIG_KEY_BADGE_NUM, badgeNum);
-        editor.commit();
+        editor.apply();
     }
 
     public static void clearBadgerNum(Context context){
         SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
         editor.putInt(SP_CONFIG_KEY_BADGE_NUM, 0);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getBadgerNum(Context context){
