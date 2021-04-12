@@ -51,7 +51,7 @@
             android:id="@+id/game_id_buoy_hide_guide_remind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/c_buoycircle_hide_guide_noremind"
+            android:text="c_buoycircle_hide_guide_noremind"
             android:textSize="13sp"/>
 
     </LinearLayout>

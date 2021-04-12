@@ -14,7 +14,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
-            android:text="@string/c_buoycircle_downloading_loading"
+            android:text="c_buoycircle_downloading_loading"
             android:textSize="13sp" />
 
         <TextView

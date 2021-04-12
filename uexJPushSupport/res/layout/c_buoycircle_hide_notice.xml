@@ -37,7 +37,7 @@
                 android:layout_marginLeft="8dp"
                 android:textSize="13sp"
                 android:textColor="#ffffff"
-                android:text="@string/c_buoycircle_auto_hide_notice"
+                android:text="c_buoycircle_auto_hide_notice"
                 android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
