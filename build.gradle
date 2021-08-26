@@ -21,12 +21,12 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
-    implementation(name: "HMSSdk-agent", ext: 'aar')
+//    implementation(name: "HMSSdk-agent", ext: 'aar')
     implementation 'org.appcan:engine:4.4.24'
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "org.zywx.wbpalmstar.widgetone.uexJPushDemo"
         multiDexEnabled true

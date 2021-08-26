@@ -3,7 +3,7 @@
     android:id="@+id/push_root_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="256dp">
 
     <FrameLayout
         android:id="@+id/v"
@@ -67,7 +67,7 @@
         <ImageView
             android:id="@+id/push_notification_banner_icon"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="150dp"
             android:layout_above="@+id/push_notification_for_bottom_margin"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
@@ -187,7 +187,7 @@
         <ImageView
             android:id="@+id/push_notification_style_1_banner_icon"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="150dp"
             android:layout_alignParentBottom="true"
             android:visibility="gone"
             android:layout_below="@id/push_notification_style_1_main_layout"
@@ -196,7 +196,7 @@
     <FrameLayout
         android:id="@+id/push_notification_banner_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/push_notification_banner_img"
             android:layout_width="match_parent"
