@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPush" version="4.4.14.2" build="2021072201">
-        <info>4.4.14.2.极光推送SDK升级到4.2.6</info>
+    <plugin uexName="uexJPush" version="4.4.14.3" build="2021072201">
+        <info>4.4.14.3.（日照港定制版）极光推送SDK升级到4.3.5</info>
+        <build>4.4.14.2.极光推送SDK升级到4.2.6</build>
         <build>4.4.13.修复一个可能由于SP导致ANR的问题</build>
         <build>4.4.12.修复manifest配置以及资源文件不规范导致4.5引擎打包失败的问题</build>
         <build>4.4.11.修复setTags和setAlias相关接口的回调问题，采用SDK的新API处理</build>
