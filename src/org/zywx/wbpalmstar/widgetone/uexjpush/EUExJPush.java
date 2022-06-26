@@ -4,15 +4,14 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.base.BDebug;
-import org.zywx.wbpalmstar.base.util.ActivityActionRecorder;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.android.data.JPushLocalNotification;
 
 public class EUExJPush extends EUExBase implements CallBack {
@@ -39,7 +37,7 @@ public class EUExJPush extends EUExBase implements CallBack {
     private static final String TAG = "EUExJPush";
     
     // 通知栏管理器
-    private NotificationManager mNotificationManager;
+    private final NotificationManager mNotificationManager;
 
     public EUExJPush(Context context, EBrowserView eBrowserView) {
         super(context, eBrowserView);
@@ -71,7 +69,10 @@ public class EUExJPush extends EUExBase implements CallBack {
     public static void onApplicationCreate(Context context) {
         // 初始化极光推送
         JPushInterface.setDebugMode(true);
-        JPushInterface.init(context.getApplicationContext());
+        boolean localUserConfirmPrivacy = SharedPreferencesUtil.getUserConfirmPrivacyStatus(context);
+        if (localUserConfirmPrivacy) {
+            JPushInterface.init(context.getApplicationContext());
+        }
     }
 
     /**
@@ -130,11 +131,23 @@ public class EUExJPush extends EUExBase implements CallBack {
         if (params.length < 1){
             return;
         }
+
         String jsonStr = params[0];
         try {
             JSONObject json = new JSONObject(jsonStr);
-            boolean isEnbaleBadge = json.optBoolean("isEnableBadge", false);
-            SharedPreferencesUtil.saveBadgerConfig(mContext, isEnbaleBadge);
+
+            boolean isUserConfirmPrivacy = json.optBoolean("isUserConfirmPrivacy", false);
+
+            if (isUserConfirmPrivacy) {
+                boolean localUserConfirmPrivacy = SharedPreferencesUtil.getUserConfirmPrivacyStatus(mContext);
+                if (!localUserConfirmPrivacy) {
+                    JPushInterface.init(mContext.getApplicationContext());
+                    SharedPreferencesUtil.saveUserConfirmPrivacyStatus(mContext, true);
+                }
+            }
+
+            boolean isEnableBadge = json.optBoolean("isEnableBadge", false);
+            SharedPreferencesUtil.saveBadgerConfig(mContext, isEnableBadge);
         } catch (JSONException e) {
             e.printStackTrace();
         }
