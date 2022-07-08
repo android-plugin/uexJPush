@@ -8,6 +8,17 @@
 
     <script type="text/javascript">
 
+	function setConfig(){
+		// 增加isUserConfirmPrivacy参数。开发者应该在用户同意隐私权限声明之后，调用此接口，此参数传true。
+		// 此时插件会记录此状态，并进行极光SDK的初始化操作。此后app再次重启时，插件会根据上次本接口的调用状态来决定是否会在app启动时自动初始化
+		// （此后该参数不会再有实际效果）
+		var params = {
+			isUserConfirmPrivacy: true
+		};
+		var data = JSON.stringify(params);
+		uexJPush.setConfig(data);
+	}
+
 	function stopPush(){
 		var params = {
 
@@ -234,6 +245,7 @@
 <div class="tit">uexDemo对象</div>
 <div class="conbor">
     <div class="consj">
+		<input class='btn' type='button' value='setConfig' onclick='setConfig()'>
 
 		<input class='btn' type='button' value='stopPush' onclick='stopPush()'>
 
