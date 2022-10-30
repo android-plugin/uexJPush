@@ -11,16 +11,18 @@ buildscript {
 apply plugin: 'com.android.application'
 
 repositories {
-    flatDir {
-        dirs 'libs'
-    }
+//    flatDir {
+//        dirs 'libs'
+//    }
     maven {
         url 'https://raw.githubusercontent.com/android-plugin/mvn-repo/master/'
     }
     google()
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: '*.jar')
+    // 为了防止工程中拷贝两份jar和so，所以工程编译时直接依赖插件包位置的jar和so即可，libs目录不用了。
+//    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation fileTree(dir: 'uexJPush/jar', include: '*.jar')
 //    implementation(name: "HMSSdk-agent", ext: 'aar')
     implementation 'org.appcan:engine:4.4.27'
 }
@@ -51,7 +53,9 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
+            // 为了防止工程中拷贝两份jar和so，所以工程编译时直接依赖插件包位置的jar和so即可，libs目录不用了。
+//            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['uexJPush/so']
         }
     }
     buildTypes {

@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 
@@ -29,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.jiguang.api.utils.JCollectionAuth;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.data.JPushLocalNotification;
 
@@ -72,6 +72,9 @@ public class EUExJPush extends EUExBase implements CallBack {
         boolean localUserConfirmPrivacy = SharedPreferencesUtil.getUserConfirmPrivacyStatus(context);
         if (localUserConfirmPrivacy) {
             JPushInterface.init(context.getApplicationContext());
+            BDebug.i(TAG, "onApplicationCreate: init JPush");
+        } else {
+            BDebug.i(TAG, "onApplicationCreate: user not confirm privacy, do not init JPush");
         }
     }
 
@@ -139,8 +142,10 @@ public class EUExJPush extends EUExBase implements CallBack {
             boolean isUserConfirmPrivacy = json.optBoolean("isUserConfirmPrivacy", false);
 
             if (isUserConfirmPrivacy) {
+                BDebug.i(TAG, "setConfig: user confirm privacy, init JPush");
                 boolean localUserConfirmPrivacy = SharedPreferencesUtil.getUserConfirmPrivacyStatus(mContext);
                 if (!localUserConfirmPrivacy) {
+                    JCollectionAuth.setAuth(mContext.getApplicationContext(),true);
                     JPushInterface.init(mContext.getApplicationContext());
                     SharedPreferencesUtil.saveUserConfirmPrivacyStatus(mContext, true);
                 }
