@@ -1,8 +1,8 @@
-API文档
+## API文档
 -------------------------------------------------------------
   * API - [https://github.com/AppCanOpenSource/appcan-docs](https://github.com/AppCanOpenSource/appcan-docs)
   *
-#### Android
+### Android配置说明
 #### **配置1： 极光推送SDK中集成小米华为魅族OPPO等厂商推送，需要配置信息（在config.xml文件中）**
 
 示例配置代码如下:
@@ -45,3 +45,26 @@ var androidObj = JPush.android(alert, title, 1, extras);
 ```
 
 重点在于，将uri_activity和uri_action两个参数都传入**org.zywx.wbpalmstar.widgetone.uexjpush.activity.PushNotificationLoadingActivity**，这个参数为uexJPush插件的接收厂商推送消息的入口类。
+
+### 版本重要更新说明
+
+4.4.15.极光推送SDK升级到4.8.4-google-play版本，并增加手动初始化的方式。
+
+此版本更新后，下面的方法必须调用，即使你的App不需要申请隐私权限的认证，那也需要先执行一下下面的方法示例，否则极光推送SDK不会主动进行初始化，推送也不会生效。
+
+uexJPush.setConfig方法增加了一个参数isUserConfirmPrivacy，用于告知插件用户是否已经同意了隐私策略，防止插件过早进行初始化操作导致错误的申请权限时机。
+
+具体使用方法是：当用户点击隐私策略的同意之后，执行下面的代码：
+```javascript
+function setConfig(){
+    // 增加isUserConfirmPrivacy参数。开发者应该在用户同意隐私权限声明之后，调用此接口，此参数传true。
+    // 此时插件会记录此状态，并进行极光SDK的初始化操作。此后app再次重启时，插件会根据上次本接口的调用状态来决定是否会在app启动时自动初始化
+    // （此后该参数不会再有实际效果）
+    var params = {
+        isUserConfirmPrivacy: true
+    };
+    var data = JSON.stringify(params);
+    uexJPush.setConfig(data);
+}
+```
+
