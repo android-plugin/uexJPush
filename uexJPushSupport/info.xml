@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexJPushSupport" version="4.4.4.1" build="2021010801">
-        <info>4.uexJPush支持依赖库（极光SDK版本3.5.0），修复4.5引擎打包失败的问题</info>
+    <plugin uexName="uexJPushSupport" version="4.4.5" build="2021070701">
+        <info>5.uexJPush支持依赖库（极光SDK版本4.2.2），升级SDK版本并适配</info>
+        <build>4.uexJPush支持依赖库（极光SDK版本3.5.0），修复4.5引擎打包失败的问题</build>
         <build>3.uexJPush支持依赖库（极光SDK版本3.5.0），修复魅族配置错误以及补充VIVO配置</build>
         <build>2.uexJPush支持依赖库（极光SDK版本3.5.0），增加了VIVO和OPPO的厂商推送SDK和配置项</build>
         <build>1.uexJPush极光推送插件搭配使用的支持依赖库（极光SDK版本3.5.0），包括华为小米等厂商推送SDK等</build>

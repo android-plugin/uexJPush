@@ -19,7 +19,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 
-
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
@@ -30,6 +29,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 
     <!--    华为角标权限-->
     <uses-permission
@@ -91,6 +91,20 @@
 
     </service>
 
+    <!-- 可选，如果使用静态Activity方式拉起，该组件必须声明 -->
+    <activity
+        android:name="cn.jpush.android.service.DActivity"
+        android:enabled="true"
+        android:exported="true"
+        android:taskAffinity="jpush.custom"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.DActivity" />
+
+            <category android:name="$UEXJPUSH_PACKAGE$" />
+        </intent-filter>
+    </activity>
+
     <!-- since 3.1.0 Required SDK 核心功能-->
     <provider
         android:authorities="$UEXJPUSH_PACKAGE$.DownloadProvider"
@@ -129,11 +143,12 @@
     <!--since 3.3.0 Required SDK核心功能-->
     <activity
         android:name="cn.jpush.android.service.JNotifyActivity"
-        android:exported="false"
+        android:exported="true"
         android:taskAffinity="jpush.custom"
         android:theme="@android:style/Theme.Translucent.NoTitleBar">
         <intent-filter>
             <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+            <category android:name="android.intent.category.DEFAULT" /><!--Required SDK核心功能 since 4.2.2-->
             <category android:name="$UEXJPUSH_PACKAGE$" />
         </intent-filter>
     </activity>

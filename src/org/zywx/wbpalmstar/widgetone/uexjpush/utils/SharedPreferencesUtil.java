@@ -26,9 +26,28 @@ public class SharedPreferencesUtil {
 
     public static final String SP_CONFIG = "uexjpush_config";
 
+    public static final String SP_CONFIG_KEY_CONFIRM_PRIVACY_STATUS = "userConfirmPrivacy";
+
     public static final String SP_CONFIG_KEY_BADGE_ENABLE = "badgeEnable";
 
     public static final String SP_CONFIG_KEY_BADGE_NUM = "badgeNum";
+
+    /**
+     * 记录是否已经授权（以便前端控制弹框申请用户隐私权限的同意。只有用户同意后，插件才会在下次onApplicationCreated的时候自动进行SDK初始化）
+     *
+     * @param context
+     * @param isFinish
+     */
+    public static void saveUserConfirmPrivacyStatus(Context context, boolean isFinish){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(SP_CONFIG_KEY_CONFIRM_PRIVACY_STATUS, isFinish);
+        editor.apply();
+    }
+
+    public static boolean getUserConfirmPrivacyStatus(Context context){
+        SharedPreferences sp = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(SP_CONFIG_KEY_CONFIRM_PRIVACY_STATUS, false);
+    }
 
     public static void saveBadgerConfig(Context context, boolean isEnable){
         SharedPreferences.Editor editor = context.getSharedPreferences(SP_CONFIG, Context.MODE_PRIVATE).edit();

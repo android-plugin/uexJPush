@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <FrameLayout
-        android:id="@+id/v"
+        android:id="@+id/v21"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <FrameLayout
@@ -33,7 +33,7 @@
                 android:layout_height="18dp"
                 android:scaleType="centerInside" />
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Title"
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:maxLength="24"
                 android:textSize="12sp" />
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Info"
+                style="@android:style/TextAppearance.Material.Notification.Info"
                 android:id="@+id/push_notification_dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:text="·"
                 android:textSize="16sp" />
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Time"
+                style="@android:style/TextAppearance.Material.Notification.Time"
                 android:maxLines="1"
                 android:id="@+id/push_notification_date"
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             android:layout_toLeftOf="@+id/push_notification_big_icon"
             android:layout_below="@id/push_notification_layout_lefttop">
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Title"
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_sub_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                 android:visibility="gone" />
 
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Info"
+                style="@android:style/TextAppearance.Material.Notification.Info"
                 android:id="@+id/push_notification_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:maxLines="2"
                 android:textSize="13sp" />
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Info"
+                style="@android:style/TextAppearance.Material.Notification.Info"
                 android:id="@+id/push_notification_content_one_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,9 +148,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/push_notification_layout_time"
                 android:gravity="center_vertical"
+                android:weightSum="1"
                 android:orientation="horizontal">
                 <TextView
-                    style="@*android:style/TextAppearance.Material.Notification.Title"
+                    style="@android:style/TextAppearance.Material.Notification.Title"
                     android:id="@+id/push_notification_style_1_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -159,12 +160,11 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
                 <TextView
-                    style="@*android:style/TextAppearance.Material.Notification.Time"
+                    style="@android:style/TextAppearance.Material.Notification.Time"
                     android:id="@+id/push_notification_style_1_date"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginRight="4dp"
                     android:gravity="right"
                     android:textSize="12sp" />
                 <TextView android:id="@+id/push_notification_null"
@@ -174,11 +174,10 @@
             </LinearLayout>
 
             <TextView
-                style="@*android:style/TextAppearance.Material.Notification.Info"
+                style="@android:style/TextAppearance.Material.Notification.Info"
                 android:id="@+id/push_notification_style_1_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
                 android:ellipsize="end"
                 android:layout_marginTop="1dp"
                 android:maxLines="1"
@@ -230,13 +229,13 @@
             android:paddingTop="8dp"
             android:layout_below="@id/push_notification_header_expand"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:gravity="center">
             <TextView
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_fb_content_no_like1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#88000000"
                 android:background="#0f000000"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -248,10 +247,10 @@
                 android:layout_margin="5dp"
                 android:text="不感兴趣"/>
             <TextView
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_fb_content_no_like2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#88000000"
                 android:background="#0f000000"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -263,10 +262,10 @@
                 android:layout_margin="5dp"
                 android:text="重复收到"/>
             <TextView
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_fb_content_no_like3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#88000000"
                 android:background="#0f000000"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -278,10 +277,10 @@
                 android:layout_margin="5dp"
                 android:text="内容低质"/>
             <TextView
+                style="@android:style/TextAppearance.Material.Notification.Title"
                 android:id="@+id/push_notification_fb_content_no_like4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#88000000"
                 android:background="#0f000000"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
